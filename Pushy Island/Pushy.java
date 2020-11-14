@@ -13,6 +13,7 @@ public class Pushy extends Actor {
      */
     public void act() {
         // Resize Image to fit Grid
+        setImage(new GreenfootImage("pushy.png"));
         GreenfootImage image = getImage();
         image.scale(MyWorld.SquareSize, MyWorld.SquareSize);
         setImage(image);
@@ -23,7 +24,7 @@ public class Pushy extends Actor {
                         | Greenfoot.isKeyDown("left")))) {
             // move
             if (Greenfoot.isKeyDown("W") | Greenfoot.isKeyDown("up")) {
-                //turn up
+                // turn up
                 setRotation(0);
                 // If Pushy is further away than one square, move up by 1
                 if (getY() > MyWorld.SquareSize) {
@@ -31,7 +32,7 @@ public class Pushy extends Actor {
                 }
             }
             if (Greenfoot.isKeyDown("A") | Greenfoot.isKeyDown("left")) {
-                //turn left
+                // turn left
                 setRotation(270);
                 // If Pushy is further away than one square, move left by 1
                 if (getX() > MyWorld.SquareSize) {
@@ -39,7 +40,7 @@ public class Pushy extends Actor {
                 }
             }
             if (Greenfoot.isKeyDown("S") | Greenfoot.isKeyDown("down")) {
-                //turn down
+                // turn down
                 setRotation(180);
                 // If Pushy is further away than one square, move down by 1
                 if (getY() < MyWorld.SquareSize * (MyWorld.WorldHeight - 1)) {
@@ -47,7 +48,7 @@ public class Pushy extends Actor {
                 }
             }
             if (Greenfoot.isKeyDown("D") | Greenfoot.isKeyDown("right")) {
-                //turn right
+                // turn right
                 setRotation(90);
                 // If Pushy is further away than one square, move right by 1
                 if (getX() < MyWorld.SquareSize * (MyWorld.WorldWidth - 1)) {

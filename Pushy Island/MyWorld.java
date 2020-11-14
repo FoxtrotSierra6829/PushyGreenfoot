@@ -1,4 +1,9 @@
 import greenfoot.*; // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import java.io.*;
+import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 /**
  * Write a description of class MyWorld here.
@@ -11,6 +16,8 @@ public class MyWorld extends World {
     static int WorldHeight = 12;
     static int SquareSize = 75;
     static int offset = SquareSize / 2;
+    int level = 1;
+    static int maxlevel = 2;
 
     // if you change the size here, remember to adapt the super constructor and the
     // arrays
@@ -18,76 +25,76 @@ public class MyWorld extends World {
      * Constructor for objects of class MyWorld.
      * 
      */
-    public MyWorld() {
+    public MyWorld() throws Exception {
         // Create a new world with 1500x900 cells with a cell size of 1x1 pixels.
         super(1500, 900, 1);
         Greenfoot.setSpeed(30);
-        int level = 1;
+        // get current level
+        try {
+        BufferedReader lvl = new BufferedReader(new FileReader("levels/currentlvl.txt"));
+        String levelStr = lvl.readLine();
+        lvl.close();
+        level = Integer.parseInt(levelStr);}
+        catch(Exception e) {
+        level = 1;}
+        if (level > maxlevel | level < 1) { //Prevent errors, not being able to load a level
+            level = 1;
+        }
+        String levelground = "";
+        String levelobjects = "";
         if (level == 1) {
-            // 0 = None
-            // 1 = Sand
-            int[] LevelConstructionGround = { 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0,
-                                            0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1,
-                                            1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0,
-                                            0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1,
-                                            1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0,
-                                            0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1,
-                                            1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0,
-                                            0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1,
-                                            1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0,
-                                            0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1,
-                                            1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0,
-                                            0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1,
-                                        };
+            levelground = "levels/level1_ground.txt";
+            levelobjects = "levels/level1_objects.txt";
+        } else if (level == 2) {
+            levelground = "levels/level2_ground.txt";
+            levelobjects = "levels/level2_objects.txt";
+        }
+        //// DRAWING WORLD
+        /// GROUND
+        BufferedReader br = new BufferedReader(new FileReader(levelground)); // reading levelX_ground file
+        int[] LevelConstructionGround = new int[WorldWidth];
+        int y = 0;
+        while (y < WorldHeight) { // scan line per line
+            y++;
+            String line = br.readLine(); // read one line of levels file
+            String[] strs = line.trim().split("\\s+"); // split every character to a string
+            for (int i = 0; i < WorldWidth; i++) {
+                LevelConstructionGround[i] = Integer.parseInt(strs[i]); // String to Integer Array
+            }
+            for (int x = 0; x < WorldWidth; x++) {
+                int Xcoord = (x * SquareSize), Ycoord = ((y-1) * SquareSize);
 
-            for (int i = 0; i < 240; i++) {
-                int j = i + 1; // j starts at 1, goes to 240
-                int x = i % WorldWidth, y = (j - i % WorldWidth) / WorldWidth; // remainder of i/WorldWidth is X-Coordinate
-                                                                               // (ex. j=1: x=0%20->0 (1. position)///
-                                                                               // j=20: x=19%20->19 (20. positon)///
-                                                                               // j=21: x=20%20->0 (New Row)
-                int Xcoord = (x * 75), Ycoord = (y * 75); // (j-remainder)/20 is Y-Coordinate (ex. j=1: y=(1-0%20)/20->0
-                                                          // j=21: y=(1-20%20)/20->1.05->1 (Second Row, remainder is cut by integer
-
-                if (LevelConstructionGround[i] == 1) {
+                if (LevelConstructionGround[x] == 0) {
+                    this.addObject(new Water(), Xcoord + offset, Ycoord + offset);
+                }
+                if (LevelConstructionGround[x] == 1) {
                     this.addObject(new Sand(), Xcoord + offset, Ycoord + offset);
                 }
-
-            }
-            // 0 = None
-            // 1 = Pushy
-            int[] LevelConstructionObjects = { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-                                         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                        };
-
-            for (int i = 0; i < 240; i++) {
-                int j = i + 1; // j starts at 1, goes to 240
-                int x = i % WorldWidth, y = (j - i % WorldWidth) / WorldWidth; // remainder of i/WorldWidth is X-Coordinate
-                                                                               // (ex. j=1: x=0%20->0 (1. position)///
-                                                                               // j=20: x=19%20->19 (20. positon)///
-                                                                               // j=21: x=20%20->0 (New Row)
-                int Xcoord = (x * 75), Ycoord = (y * 75); // (j-remainder)/20 is Y-Coordinate (ex. j=1: y=(1-0%20)/20->0
-                                                          // j=21: y=(1-20%20)/20->1.05->1 (Second Row, remainder is cut by integer
-
-                if (LevelConstructionObjects[i] == 1) {
-                    this.addObject(new Pushy(), Xcoord + offset, Ycoord + offset);
-                }
-
             }
         }
-    }
+        br.close();
+        /// GROUND
+        BufferedReader br2 = new BufferedReader(new FileReader(levelobjects)); // reading levelX_ground file
+        int[] LevelConstructionObjects = new int[WorldWidth];
+        y = 0;
+        while (y < WorldHeight) { // scan line per line
+            y++;
+            String line = br2.readLine(); // read one line of levels file
+            String[] strs = line.trim().split("\\s+"); // split every character to a string
+            for (int i = 0; i < WorldWidth; i++) {
+                LevelConstructionObjects[i] = Integer.parseInt(strs[i]); // String to Integer Array
+            }
+            for (int x = 0; x < WorldWidth; x++) {
+                int Xcoord = (x * SquareSize), Ycoord = ((y-1) * SquareSize);
 
-    public void act() {
-
+                if (LevelConstructionObjects[x] == 1) {
+                    this.addObject(new Pushy(), Xcoord + offset, Ycoord + offset);
+                }
+                if (LevelConstructionObjects[x] == 2) {
+                    this.addObject(new House(), Xcoord + offset, Ycoord + offset);
+                }
+            }
+        }
+        br2.close();
     }
 }
