@@ -31,13 +31,14 @@ public class MyWorld extends World {
         Greenfoot.setSpeed(30);
         // get current level
         try {
-        BufferedReader lvl = new BufferedReader(new FileReader("levels/currentlvl.txt"));
-        String levelStr = lvl.readLine();
-        lvl.close();
-        level = Integer.parseInt(levelStr);}
-        catch(Exception e) {
-        level = 1;}
-        if (level > maxlevel | level < 1) { //Prevent errors, not being able to load a level
+            BufferedReader lvl = new BufferedReader(new FileReader("levels/currentlvl.txt"));
+            String levelStr = lvl.readLine();
+            lvl.close();
+            level = Integer.parseInt(levelStr);
+        } catch (Exception e) {
+            level = 1;
+        }
+        if (level > maxlevel | level < 1) { // Prevent errors, not being able to load a level
             level = 1;
         }
         String levelground = "";
@@ -62,7 +63,7 @@ public class MyWorld extends World {
                 LevelConstructionGround[i] = Integer.parseInt(strs[i]); // String to Integer Array
             }
             for (int x = 0; x < WorldWidth; x++) {
-                int Xcoord = (x * SquareSize), Ycoord = ((y-1) * SquareSize);
+                int Xcoord = (x * SquareSize), Ycoord = ((y - 1) * SquareSize);
 
                 if (LevelConstructionGround[x] == 0) {
                     this.addObject(new Water(), Xcoord + offset, Ycoord + offset);
@@ -85,7 +86,7 @@ public class MyWorld extends World {
                 LevelConstructionObjects[i] = Integer.parseInt(strs[i]); // String to Integer Array
             }
             for (int x = 0; x < WorldWidth; x++) {
-                int Xcoord = (x * SquareSize), Ycoord = ((y-1) * SquareSize);
+                int Xcoord = (x * SquareSize), Ycoord = ((y - 1) * SquareSize);
 
                 if (LevelConstructionObjects[x] == 1) {
                     this.addObject(new Pushy(), Xcoord + offset, Ycoord + offset);
