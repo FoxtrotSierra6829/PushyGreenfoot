@@ -14,6 +14,9 @@ public class Sand extends Actor
      */
     public void act() 
     {
-        // Add your action code here.
+        // Resize Image to fit 75x75 Grid
+        GreenfootImage image = getImage();
+        image.scale(75, 75);
+        setImage(image);
     }    
 }
