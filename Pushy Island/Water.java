@@ -13,7 +13,7 @@ public class Water extends Actor {
      */
     public void act() {
         // Resize Image to fit Grid
-        setImage(new GreenfootImage("wasser.jpg"));
+        setImage(new GreenfootImage("water.png"));
         GreenfootImage image = getImage();
         image.scale(MyWorld.SquareSize, MyWorld.SquareSize);
         setImage(image);

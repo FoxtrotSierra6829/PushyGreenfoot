@@ -94,6 +94,9 @@ public class MyWorld extends World {
                 if (LevelConstructionObjects[x] == 2) {
                     this.addObject(new House(), Xcoord + offset, Ycoord + offset);
                 }
+                if (LevelConstructionObjects[x] == 3) {
+                    this.addObject(new Box(), Xcoord + offset, Ycoord + offset);
+                }
             }
         }
         br2.close();

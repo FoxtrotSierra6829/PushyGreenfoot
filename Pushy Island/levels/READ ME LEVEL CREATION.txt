@@ -20,6 +20,7 @@ For Objects files:
 0 = None
 1 = Pushy
 2 = House
+3 = Box
 
 Empty World Grid (20x12):
 

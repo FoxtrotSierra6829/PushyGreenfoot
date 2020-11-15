@@ -18,7 +18,7 @@ public class House extends Actor {
 
     public void act() {
         // Resize Image to fit Grid
-        setImage(new GreenfootImage("images/haus.jpg"));
+        setImage(new GreenfootImage("images/house.png"));
         GreenfootImage image = getImage();
         image.scale(MyWorld.SquareSize, MyWorld.SquareSize);
         setImage(image);
