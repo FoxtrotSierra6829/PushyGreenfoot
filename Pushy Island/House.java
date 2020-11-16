@@ -2,26 +2,20 @@
 import greenfoot.*; // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.io.*;
 
-/**
- * Write a description of class House here.
- * 
- * @author (your name)
- * @version (a version number or a date)
- */
 public class House extends Actor {
-    /**
-     * Act - do whatever the House wants to do. This method is called whenever the
-     * 'Act' or 'Run' button gets pressed in the environment.
-     */
 
+    boolean worldcreate = true;
     int level = 1;
 
     public void act() {
-        // Resize Image to fit Grid
-        setImage(new GreenfootImage("images/house.png"));
-        GreenfootImage image = getImage();
-        image.scale(MyWorld.SquareSize, MyWorld.SquareSize);
-        setImage(image);
+        if (worldcreate == true) {
+            // Resize Image to fit Grid
+            setImage(new GreenfootImage("images/house.png"));
+            GreenfootImage image = getImage();
+            image.scale(MyWorld.SquareSize, MyWorld.SquareSize);
+            setImage(image);
+            worldcreate = false;
+        }
         if (checklvl() == true) {
             try {
                 nextlevel();

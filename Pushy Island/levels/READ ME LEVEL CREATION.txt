@@ -15,6 +15,7 @@ Items are placed with indication numbers seperated by space.
 For Ground files:
 0 = Water
 1 = Sand
+2 = Gras
 
 For Objects files:
 0 = None

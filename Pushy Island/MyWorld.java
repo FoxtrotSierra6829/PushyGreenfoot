@@ -3,15 +3,9 @@ import java.io.*;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
-/**
- * Write a description of class MyWorld here.
- * 
- * @author (your name)
- * @version (a version number or a date)
- */
 public class MyWorld extends World {
+
     static int WorldWidth = 20;
     static int WorldHeight = 12;
     static int SquareSize = 75;
@@ -19,12 +13,6 @@ public class MyWorld extends World {
     int level = 1;
     static int maxlevel = 2;
 
-    // if you change the size here, remember to adapt the super constructor and the
-    // arrays
-    /**
-     * Constructor for objects of class MyWorld.
-     * 
-     */
     public MyWorld() throws Exception {
         // Create a new world with 1500x900 cells with a cell size of 1x1 pixels.
         super(1500, 900, 1);

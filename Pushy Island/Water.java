@@ -1,21 +1,17 @@
 import greenfoot.*; // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
-/**
- * Write a description of class Water here.
- * 
- * @author (your name)
- * @version (a version number or a date)
- */
 public class Water extends Actor {
-    /**
-     * Act - do whatever the Water wants to do. This method is called whenever the
-     * 'Act' or 'Run' button gets pressed in the environment.
-     */
+
+    boolean worldcreate = true;
+
     public void act() {
-        // Resize Image to fit Grid
-        setImage(new GreenfootImage("water.png"));
-        GreenfootImage image = getImage();
-        image.scale(MyWorld.SquareSize, MyWorld.SquareSize);
-        setImage(image);
+        if (worldcreate == true) {
+            // Resize Image to fit Grid
+            setImage(new GreenfootImage("water.png"));
+            GreenfootImage image = getImage();
+            image.scale(MyWorld.SquareSize, MyWorld.SquareSize);
+            setImage(image);
+            worldcreate = false;
+        }
     }
 }

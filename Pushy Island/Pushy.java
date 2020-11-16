@@ -1,22 +1,18 @@
 import greenfoot.*; // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
-/**
- * Write a description of class Pushy here.
- * 
- * @author (your name)
- * @version (a version number or a date)
- */
 public class Pushy extends Actor {
-    /**
-     * Act - do whatever the Pushy wants to do. This method is called whenever the
-     * 'Act' or 'Run' button gets pressed in the environment.
-     */
+
+    boolean worldcreate = true;
+
     public void act() {
-        // Resize Image to fit Grid
-        setImage(new GreenfootImage("pushy.png"));
-        GreenfootImage image = getImage();
-        image.scale(MyWorld.SquareSize, MyWorld.SquareSize);
-        setImage(image);
+        if (worldcreate == true) {
+            // Resize Image to fit Grid
+            setImage(new GreenfootImage("pushy.png"));
+            GreenfootImage image = getImage();
+            image.scale(MyWorld.SquareSize, MyWorld.SquareSize);
+            setImage(image);
+            worldcreate = false;
+        }
         // no diagonal moves
         if (!((Greenfoot.isKeyDown("W") | Greenfoot.isKeyDown("up") | Greenfoot.isKeyDown("S")
                 | Greenfoot.isKeyDown("down"))
