@@ -1,4 +1,3 @@
-
 import greenfoot.*; // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.io.*;
 
@@ -16,7 +15,7 @@ public class House extends Actor {
             setImage(image);
             worldcreate = false;
         }
-        if (checklvl() == true) {
+        if (checkhome() == true) {
             try {
                 nextlevel();
             } catch (Exception e) {
@@ -28,14 +27,17 @@ public class House extends Actor {
     public void nextlevel() throws Exception {
         // get current level
         try {
-            BufferedReader lvl = new BufferedReader(new FileReader("levels/currentlvl.txt"));
+            BufferedReader lvl = new BufferedReader(new InputStreamReader(
+                    new FileInputStream(System.getProperty("user.home") + "/Documents/Pushy/levels/currentlvl.txt")));
             String levelStr = lvl.readLine();
             lvl.close();
             level = Integer.parseInt(levelStr);
         } catch (Exception e) {
             level = 1;
         }
-        BufferedWriter bw = new BufferedWriter(new FileWriter("levels/currentlvl.txt"));
+        BufferedWriter bw = new BufferedWriter(
+                new FileWriter(System.getProperty("user.home") + "/Documents/Pushy/levels/currentlvl.txt"));
+
         if (level > MyWorld.maxlevel) {
             bw.write(String.valueOf(MyWorld.maxlevel));
         } else {
@@ -47,12 +49,20 @@ public class House extends Actor {
         return;
     }
 
-    public boolean checklvl() {
+    public boolean checkhome() {
         Actor Pushy = getOneIntersectingObject(Pushy.class);
         if (Pushy != null) {
-            return true;
+            if (missioncomplete() == true) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }
+    }
+
+    public boolean missioncomplete() {
+        return true;
     }
 }

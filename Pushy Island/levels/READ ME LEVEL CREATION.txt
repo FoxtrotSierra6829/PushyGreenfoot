@@ -22,6 +22,9 @@ For Objects files:
 1 = Pushy
 2 = House
 3 = Box
+4 = Stone
+5 = Palm left
+6 = Palm right
 
 Empty World Grid (20x12):
 

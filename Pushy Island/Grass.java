@@ -2,12 +2,12 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.List;
 
 /**
- * Write a description of class Gras here.
+ * Write a description of class Grass here.
  * 
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class Gras extends Actor
+public class Grass extends Actor
 {
     boolean worldcreate = true;
     
@@ -21,19 +21,19 @@ public class Gras extends Actor
             
             if (!sandbelow.isEmpty()) {
                 if (!sandright.isEmpty()) { // right and below no sand
-                    setImage(new GreenfootImage("grün_ru.jpg"));
+                    setImage(new GreenfootImage("grass_ru.png"));
                 } else if (!sandleft.isEmpty()) { // right and above no sand
-                    setImage(new GreenfootImage("grün_lu.jpg"));
+                    setImage(new GreenfootImage("grass_lu.png"));
                 } else {
-                    setImage(new GreenfootImage("grün_unten.jpg"));
+                    setImage(new GreenfootImage("grass_down.png"));
                 }
             } else if (!sandabove.isEmpty()) {
                 if (!sandright.isEmpty()) { // left and below no sand
-                    setImage(new GreenfootImage("grün_ro.jpg"));
+                    setImage(new GreenfootImage("grass_ro.png"));
                 } else if (!sandleft.isEmpty()) { // left and above no sand
-                    setImage(new GreenfootImage("grün_lo.jpg"));
+                    setImage(new GreenfootImage("grass_lo.png"));
                 } else {
-                    setImage(new GreenfootImage("grün.jpg"));
+                    setImage(new GreenfootImage("grass.png"));
                 }
             } else { // if normal
                 setImage(new GreenfootImage("grass.png"));

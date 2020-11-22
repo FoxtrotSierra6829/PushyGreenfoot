@@ -19,11 +19,13 @@ public class MyWorld extends World {
         Greenfoot.setSpeed(30);
         // get current level
         try {
-            BufferedReader lvl = new BufferedReader(new FileReader("levels/currentlvl.txt"));
+            BufferedReader lvl = new BufferedReader(new InputStreamReader(
+                    new FileInputStream(System.getProperty("user.home") + "/Documents/Pushy/levels/currentlvl.txt")));
             String levelStr = lvl.readLine();
             lvl.close();
             level = Integer.parseInt(levelStr);
         } catch (Exception e) {
+            new File((System.getProperty("user.home") + "/Documents/Pushy/levels")).mkdirs();
             level = 1;
         }
         if (level > maxlevel | level < 1) { // Prevent errors, not being able to load a level
@@ -40,7 +42,10 @@ public class MyWorld extends World {
         }
         //// DRAWING WORLD
         /// GROUND
-        BufferedReader br = new BufferedReader(new FileReader(levelground)); // reading levelX_ground file
+        BufferedReader br = new BufferedReader(
+                new InputStreamReader(getClass().getClassLoader().getResourceAsStream(levelground))); // reading
+                                                                                                      // levelX_ground
+                                                                                                      // file
         int[] LevelConstructionGround = new int[WorldWidth];
         int y = 0;
         while (y < WorldHeight) { // scan line per line
@@ -60,13 +65,16 @@ public class MyWorld extends World {
                     this.addObject(new Sand(), Xcoord + offset, Ycoord + offset);
                 }
                 if (LevelConstructionGround[x] == 2) {
-                    this.addObject(new Gras(), Xcoord + offset, Ycoord + offset);
+                    this.addObject(new Grass(), Xcoord + offset, Ycoord + offset);
                 }
             }
         }
         br.close();
         /// GROUND
-        BufferedReader br2 = new BufferedReader(new FileReader(levelobjects)); // reading levelX_ground file
+        BufferedReader br2 = new BufferedReader(
+                new InputStreamReader(getClass().getClassLoader().getResourceAsStream(levelobjects))); // reading
+                                                                                                       // levelX_ground
+                                                                                                       // file
         int[] LevelConstructionObjects = new int[WorldWidth];
         y = 0;
         while (y < WorldHeight) { // scan line per line
@@ -100,5 +108,8 @@ public class MyWorld extends World {
             }
         }
         br2.close();
+        // change display order of actors (top -> bottom)
+        setPaintOrder(Pushy.class, House.class, Box.class, Stone.class, Palm_left.class, Palm_right.class, Grass.class,
+                Sand.class, Water.class);
     }
 }
