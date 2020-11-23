@@ -1,24 +1,22 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import greenfoot.*; // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.List;
 
 /**
  * Write a description of class Grass here.
  * 
- * @author (your name) 
+ * @author (your name)
  * @version (a version number or a date)
  */
-public class Grass extends Actor
-{
+public class Grass extends Actor {
     boolean worldcreate = true;
-    
-    public void act() 
-    {
+
+    public void act() {
         if (worldcreate == true) {
             List sandright = getWorld().getObjectsAt(getX() + MyWorld.SquareSize, getY(), Sand.class);
             List sandbelow = getWorld().getObjectsAt(getX(), getY() + MyWorld.SquareSize, Sand.class);
             List sandabove = getWorld().getObjectsAt(getX(), getY() - MyWorld.SquareSize, Sand.class);
             List sandleft = getWorld().getObjectsAt(getX() - MyWorld.SquareSize, getY(), Sand.class);
-            
+
             if (!sandbelow.isEmpty()) {
                 if (!sandright.isEmpty()) { // right and below no sand
                     setImage(new GreenfootImage("grass_ru.png"));
@@ -38,14 +36,13 @@ public class Grass extends Actor
             } else { // if normal
                 setImage(new GreenfootImage("grass.png"));
             }
-            
-                                  
+
             // Resize Image to fit Grid
             GreenfootImage image = getImage();
             image.scale(MyWorld.SquareSize, MyWorld.SquareSize);
             setImage(image);
             worldcreate = false;
         }
-        
-    }    
+
+    }
 }

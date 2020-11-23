@@ -1,0 +1,9 @@
+#BlueJ class context
+comment0.target=Back
+comment1.params=text\ size\ alignment
+comment1.target=Back(java.lang.String,\ int,\ java.lang.String)
+comment2.params=
+comment2.target=void\ act()
+comment3.params=
+comment3.target=void\ previouslevel()
+numComments=4

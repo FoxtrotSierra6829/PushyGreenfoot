@@ -4,7 +4,9 @@ import java.io.*;
 public class House extends Actor {
 
     boolean worldcreate = true;
-    int level = 1;
+    int levelnr = 1;
+    int highscorelevel = 1;
+    String gamemode = "Menu";
 
     public void act() {
         if (worldcreate == true) {
@@ -13,6 +15,13 @@ public class House extends Actor {
             GreenfootImage image = getImage();
             image.scale(MyWorld.SquareSize, MyWorld.SquareSize);
             setImage(image);
+            try {
+                BufferedReader mode = new BufferedReader(new InputStreamReader(
+                        new FileInputStream(System.getProperty("user.home") + "/Documents/Pushy/mode.pushy")));
+                gamemode = mode.readLine();
+                mode.close();
+            } catch (Exception e) {
+            }
             worldcreate = false;
         }
         if (checkhome() == true) {
@@ -27,23 +36,42 @@ public class House extends Actor {
     public void nextlevel() throws Exception {
         // get current level
         try {
-            BufferedReader lvl = new BufferedReader(new InputStreamReader(
-                    new FileInputStream(System.getProperty("user.home") + "/Documents/Pushy/levels/currentlvl.txt")));
+            BufferedReader lvl = new BufferedReader(new InputStreamReader(new FileInputStream(
+                    System.getProperty("user.home") + "/Documents/Pushy/levels/" + gamemode + "/current.lvl")));
             String levelStr = lvl.readLine();
             lvl.close();
-            level = Integer.parseInt(levelStr);
+            levelnr = Integer.parseInt(levelStr);
         } catch (Exception e) {
-            level = 1;
+            levelnr = 1;
         }
-        BufferedWriter bw = new BufferedWriter(
-                new FileWriter(System.getProperty("user.home") + "/Documents/Pushy/levels/currentlvl.txt"));
+        try {
+            BufferedReader lvl = new BufferedReader(new InputStreamReader(new FileInputStream(
+                    System.getProperty("user.home") + "/Documents/Pushy/levels/" + gamemode + "/highscore.lvl")));
+            String levelStr = lvl.readLine();
+            lvl.close();
+            highscorelevel = Integer.parseInt(levelStr);
+        } catch (Exception e) {
+            highscorelevel = 0;
+        }
+        BufferedWriter bw = new BufferedWriter(new FileWriter(
+                System.getProperty("user.home") + "/Documents/Pushy/levels/" + gamemode + "/current.lvl"));
 
-        if (level > MyWorld.maxlevel) {
+        if (levelnr + 1 > MyWorld.maxlevel) {
             bw.write(String.valueOf(MyWorld.maxlevel));
         } else {
-            bw.write(String.valueOf(level + 1));
+            bw.write(String.valueOf(levelnr + 1));
         }
         bw.close();
+        if (levelnr > highscorelevel) {
+            BufferedWriter bw2 = new BufferedWriter(new FileWriter(
+                    System.getProperty("user.home") + "/Documents/Pushy/levels/" + gamemode + "/highscore.lvl"));
+            if (levelnr >= MyWorld.maxlevel) {
+                bw2.write(String.valueOf(MyWorld.maxlevel));
+            } else {
+                bw2.write(String.valueOf(levelnr));
+            }
+            bw2.close();
+        }
         Greenfoot.setWorld(new MyWorld());
         Greenfoot.start();
         return;
