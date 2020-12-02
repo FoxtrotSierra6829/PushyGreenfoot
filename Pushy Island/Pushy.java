@@ -60,9 +60,13 @@ public class Pushy extends Actor {
         List waterleft = getWorld().getObjectsAt(getX() - MyWorld.SquareSize, getY(), Water.class);
         // check for House
         List houseleft = getWorld().getObjectsAt(getX() - MyWorld.SquareSize, getY(), House.class);
+        // check for Grass
+        List grassleft = getWorld().getObjectsAt(getX() - MyWorld.SquareSize, getY(), Grass.class);
+        // check for Sand
+        List sand = getWorld().getObjectsAt(getX(), getY(), Sand.class);
         // check if Pushy is further away from world end than one square and there is no
         // water & house left
-        if (getX() > MyWorld.SquareSize & waterleft.isEmpty() & houseleft.isEmpty()) {
+        if (getX() > MyWorld.SquareSize & waterleft.isEmpty() & houseleft.isEmpty() & (grassleft.isEmpty() & !sand.isEmpty())) {
             return true;
         } else {
             return false;
@@ -74,9 +78,13 @@ public class Pushy extends Actor {
         List waterright = getWorld().getObjectsAt(getX() + MyWorld.SquareSize, getY(), Water.class);
         // check for House
         List houseright = getWorld().getObjectsAt(getX() + MyWorld.SquareSize, getY(), House.class);
+        // check for Grass
+        List grassright = getWorld().getObjectsAt(getX() + MyWorld.SquareSize, getY(), Grass.class);
+        // check for Sand
+        List sand = getWorld().getObjectsAt(getX(), getY(), Sand.class);
         // check if Pushy is further away from world end than one square and there is no
         // water & house right
-        if (getX() < MyWorld.SquareSize * (MyWorld.WorldWidth - 1) & waterright.isEmpty() & houseright.isEmpty()) {
+        if (getX() < MyWorld.SquareSize * (MyWorld.WorldWidth - 1) & waterright.isEmpty() & houseright.isEmpty() & (grassright.isEmpty() & !sand.isEmpty())) {
             return true;
         } else {
             return false;

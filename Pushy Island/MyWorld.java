@@ -12,7 +12,7 @@ public class MyWorld extends World {
     static int offset = SquareSize / 2;
     int levelnr = 1;
     int highscorelevel = 1;
-    static int maxlevel = 2;
+    static int maxlevel = 4;
     String gamemode = "Menu";
     String menu = "Menu";
     String pushyisland = "PushyIsland";
