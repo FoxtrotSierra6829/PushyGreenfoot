@@ -12,10 +12,10 @@ public class Grass extends Actor {
 
     public void act() {
         if (worldcreate == true) {
-            List sandright = getWorld().getObjectsAt(getX() + MyWorld.SquareSize, getY(), Sand.class);
-            List sandbelow = getWorld().getObjectsAt(getX(), getY() + MyWorld.SquareSize, Sand.class);
-            List sandabove = getWorld().getObjectsAt(getX(), getY() - MyWorld.SquareSize, Sand.class);
-            List sandleft = getWorld().getObjectsAt(getX() - MyWorld.SquareSize, getY(), Sand.class);
+            List sandright = getWorld().getObjectsAt(getX() + MyWorld.BlockSize, getY(), Sand.class);
+            List sandbelow = getWorld().getObjectsAt(getX(), getY() + MyWorld.BlockSize, Sand.class);
+            List sandabove = getWorld().getObjectsAt(getX(), getY() - MyWorld.BlockSize, Sand.class);
+            List sandleft = getWorld().getObjectsAt(getX() - MyWorld.BlockSize, getY(), Sand.class);
 
             if (!sandbelow.isEmpty()) {
                 if (!sandright.isEmpty()) { // right and below no sand
@@ -39,7 +39,7 @@ public class Grass extends Actor {
 
             // Resize Image to fit Grid
             GreenfootImage image = getImage();
-            image.scale(MyWorld.SquareSize, MyWorld.SquareSize);
+            image.scale(MyWorld.BlockSize, MyWorld.BlockSize);
             setImage(image);
             worldcreate = false;
         }

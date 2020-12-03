@@ -4,6 +4,7 @@ import java.io.*;
 public class Forward extends Actor {
     int levelnr = 1;
     int highscorelevel = 1;
+    int maxlevel = 1;
     String gamemode = "Menu";
 
     // automatically centered text
@@ -41,6 +42,13 @@ public class Forward extends Actor {
             mode.close();
         } catch (Exception e) {
         }
+        try {
+            BufferedReader max = new BufferedReader(new InputStreamReader(new FileInputStream(
+                    System.getProperty("user.home") + "/Documents/Pushy/levels/" + gamemode + "/max.lvl")));
+            maxlevel = Integer.parseInt(max.readLine());
+            max.close();
+        } catch (Exception e) {
+        }
         // get current level
         try {
             BufferedReader lvl = new BufferedReader(new InputStreamReader(new FileInputStream(
@@ -63,7 +71,7 @@ public class Forward extends Actor {
         BufferedWriter bw = new BufferedWriter(new FileWriter(
                 System.getProperty("user.home") + "/Documents/Pushy/levels/" + gamemode + "/current.lvl"));
 
-        if (levelnr + 1 <= MyWorld.maxlevel & levelnr + 1 <= highscorelevel + 1) {
+        if (levelnr + 1 <= maxlevel & levelnr + 1 <= highscorelevel + 1) {
             bw.write(String.valueOf(levelnr + 1));
         } else {
             bw.write(String.valueOf(levelnr));

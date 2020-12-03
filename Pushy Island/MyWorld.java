@@ -1,3 +1,4 @@
+
 import greenfoot.*; // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.io.*;
 import java.util.Arrays;
@@ -8,11 +9,11 @@ public class MyWorld extends World {
 
     static int WorldWidth = 20;
     static int WorldHeight = 12;
-    static int SquareSize = 75;
-    static int offset = SquareSize / 2;
+    static int BlockSize = 75;
+    static int offset = BlockSize / 2;
     int levelnr = 1;
     int highscorelevel = 1;
-    static int maxlevel = 4;
+    int maxlevel = 1;
     String gamemode = "Menu";
     String menu = "Menu";
     String pushyisland = "PushyIsland";
@@ -32,6 +33,25 @@ public class MyWorld extends World {
         } catch (Exception e) {
         }
         if (gamemode.equalsIgnoreCase(pushyisland)) {
+            // get maximum level
+            int imax = 1;
+            while (imax != 0) {
+                try {
+                    BufferedReader maxlvl = new BufferedReader(new InputStreamReader(
+                            new FileInputStream("levels/" + gamemode + "/level" + imax + "_ground.txt")));
+                    String levelStr = maxlvl.readLine();
+                    maxlvl.close();
+                    maxlevel = imax;
+                    imax++;
+                } catch (Exception e) {
+                    imax = 0;
+                    new File((System.getProperty("user.home") + "/Documents/Pushy/levels/" + gamemode)).mkdirs();
+                    BufferedWriter max = new BufferedWriter(new FileWriter(
+                            System.getProperty("user.home") + "/Documents/Pushy/levels/" + gamemode + "/max.lvl"));
+                    max.write(String.valueOf(maxlevel));
+                    max.close();
+                }
+            }
             // get highscore level
             try {
                 BufferedReader lvl = new BufferedReader(new InputStreamReader(new FileInputStream(
@@ -80,7 +100,7 @@ public class MyWorld extends World {
                     LevelConstructionGround[i] = Integer.parseInt(strs[i]); // String to Integer Array
                 }
                 for (int x = 0; x < WorldWidth; x++) {
-                    int Xcoord = (x * SquareSize), Ycoord = ((y - 1) * SquareSize);
+                    int Xcoord = (x * BlockSize), Ycoord = ((y - 1) * BlockSize);
 
                     if (LevelConstructionGround[x] == 0) {
                         this.addObject(new Water(), Xcoord + offset, Ycoord + offset);
@@ -109,7 +129,7 @@ public class MyWorld extends World {
                     LevelConstructionObjects[i] = Integer.parseInt(strs[i]); // String to Integer Array
                 }
                 for (int x = 0; x < WorldWidth; x++) {
-                    int Xcoord = (x * SquareSize), Ycoord = ((y - 1) * SquareSize);
+                    int Xcoord = (x * BlockSize), Ycoord = ((y - 1) * BlockSize);
 
                     if (LevelConstructionObjects[x] == 1) {
                         this.addObject(new Pushy(), Xcoord + offset, Ycoord + offset);
@@ -136,13 +156,13 @@ public class MyWorld extends World {
             setPaintOrder(Text.class, Back.class, Forward.class, Pushy.class, House.class, Box.class, Stone.class,
                     Palm_left.class, Palm_right.class, Grass.class, Sand.class, Water.class);
             Back Back = new Back("<  ", 50, "center"); // new Text(Text, Fontsize, alignment relative to x)
-            addObject(Back, SquareSize / 4, (WorldHeight - 1) * SquareSize + offset); // Add Text(center x, center y)
+            addObject(Back, BlockSize / 4, (WorldHeight - 1) * BlockSize + offset); // Add Text(center x, center y)
             Forward Forward = new Forward(">  ", 50, "center"); // new Text(Text, Fontsize, alignment relative to x)
-            addObject(Forward, (WorldWidth - 1) * SquareSize + SquareSize / 4, (WorldHeight - 1) * SquareSize + offset); // Add
-                                                                                                                         // Text(center
-                                                                                                                         // x,
-                                                                                                                         // center
-                                                                                                                         // y)
+            addObject(Forward, (WorldWidth - 1) * BlockSize + BlockSize / 4, (WorldHeight - 1) * BlockSize + offset); // Add
+                                                                                                                      // Text(center
+                                                                                                                      // x,
+                                                                                                                      // center
+                                                                                                                      // y)
         }
     }
 
@@ -159,7 +179,7 @@ public class MyWorld extends World {
     public void menu() {
         Text MenuText = new Text("Press ENTER to continue", 30, "center"); // new Text(Text, Fontsize, alignment
                                                                            // relative to x)
-        addObject(MenuText, WorldWidth * SquareSize / 2, WorldHeight * SquareSize / 2); // Add Text(center x, center y)
+        addObject(MenuText, WorldWidth * BlockSize / 2, WorldHeight * BlockSize / 2); // Add Text(center x, center y)
         if (Greenfoot.isKeyDown("enter")) {
             changemode(pushyisland);
         }

@@ -8,7 +8,7 @@ public class Box extends Actor {
             // Resize Image to fit Grid
             setImage(new GreenfootImage("box.png"));
             GreenfootImage image = getImage();
-            image.scale(MyWorld.SquareSize, MyWorld.SquareSize);
+            image.scale(MyWorld.BlockSize, MyWorld.BlockSize);
             setImage(image);
             worldcreate = false;
         }
