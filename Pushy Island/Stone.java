@@ -1,6 +1,6 @@
 import greenfoot.*; // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
-public class Stone extends Actor {
+public class Stone extends Static {
 
     boolean worldcreate = true;
 
@@ -9,7 +9,7 @@ public class Stone extends Actor {
             // Resize Image to fit Grid
             setImage(new GreenfootImage("stone.png"));
             GreenfootImage image = getImage();
-            image.scale(MyWorld.SquareSize, MyWorld.SquareSize);
+            image.scale(MyWorld.BlockSize, MyWorld.BlockSize);
             setImage(image);
             worldcreate = false;
         }

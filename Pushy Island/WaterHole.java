@@ -1,13 +1,13 @@
 import greenfoot.*; // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
-public class Water extends Actor {
+public class WaterHole extends Actor {
 
     boolean worldcreate = true;
 
     public void act() {
         if (worldcreate == true) {
             // Resize Image to fit Grid
-            setImage(new GreenfootImage("water.png"));
+            setImage(new GreenfootImage("seastar.png"));
             GreenfootImage image = getImage();
             image.scale(MyWorld.BlockSize, MyWorld.BlockSize);
             setImage(image);
