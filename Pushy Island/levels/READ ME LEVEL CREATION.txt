@@ -25,6 +25,11 @@ For Objects files:
 4 = Stone
 5 = Palm left
 6 = Palm right
+7 = Seastar
+8 = WaterHole
+9 = SandHole
+10 = Bottle
+11 = Bean
 
 Empty World Grid (20x12):
 
