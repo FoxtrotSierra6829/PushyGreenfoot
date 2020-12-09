@@ -1,13 +1,20 @@
 import greenfoot.*; // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.io.*;
 
-public class House extends Actor {
+public class House extends Static {
 
     boolean worldcreate = true;
     int levelnr = 1;
     int highscorelevel = 1;
     int maxlevel = 1;
     String gamemode = "Menu";
+    int homerun = 0;
+    Pushy pushy1;
+
+    public House(Pushy Pushy1) {
+        pushy1 = Pushy1;
+
+    }
 
     public void act() {
         if (worldcreate == true) {
@@ -33,9 +40,15 @@ public class House extends Actor {
             worldcreate = false;
         }
         if (checkhome() == true) {
-            try {
-                nextlevel();
-            } catch (Exception e) {
+            if (homerun < 50) {
+                Greenfoot.setSpeed(50);
+                homerun++;
+                pushy1.turn();
+            } else {
+                try {
+                    nextlevel();
+                } catch (Exception e) {
+                }
             }
         }
 
