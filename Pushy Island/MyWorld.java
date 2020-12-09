@@ -121,6 +121,7 @@ public class MyWorld extends World {
                                                                                                            // file
             int[] LevelConstructionObjects = new int[WorldWidth];
             y = 0;
+            Pushy Pushy1 = new Pushy();
             while (y < WorldHeight) { // scan line per line
                 y++;
                 String line = br2.readLine(); // read one line of levels file
@@ -132,10 +133,10 @@ public class MyWorld extends World {
                     int Xcoord = (x * BlockSize), Ycoord = ((y - 1) * BlockSize);
 
                     if (LevelConstructionObjects[x] == 1) {
-                        this.addObject(new Pushy(), Xcoord + offset, Ycoord + offset);
+                        this.addObject(Pushy1, Xcoord + offset, Ycoord + offset);
                     }
                     if (LevelConstructionObjects[x] == 2) {
-                        this.addObject(new House(), Xcoord + offset, Ycoord + offset);
+                        this.addObject(new House(Pushy1), Xcoord + offset, Ycoord + offset);
                     }
                     if (LevelConstructionObjects[x] == 3) {
                         this.addObject(new Box(), Xcoord + offset, Ycoord + offset);
@@ -144,17 +145,32 @@ public class MyWorld extends World {
                         this.addObject(new Stone(), Xcoord + offset, Ycoord + offset);
                     }
                     if (LevelConstructionObjects[x] == 5) {
-                        this.addObject(new Palm_left(), Xcoord + offset, Ycoord + offset);
+                        this.addObject(new Palm("left"), Xcoord + offset, Ycoord + offset);
                     }
                     if (LevelConstructionObjects[x] == 6) {
-                        this.addObject(new Palm_right(), Xcoord + offset, Ycoord + offset);
+                        this.addObject(new Palm("right"), Xcoord + offset, Ycoord + offset);
+                    }
+                    if (LevelConstructionObjects[x] == 7) {
+                        this.addObject(new Seastar(), Xcoord + offset, Ycoord + offset);
+                    }
+                    if (LevelConstructionObjects[x] == 8) {
+                        this.addObject(new WaterHole(), Xcoord + offset, Ycoord + offset);
+                    }
+                    if (LevelConstructionObjects[x] == 9) {
+                        this.addObject(new SandHole(), Xcoord + offset, Ycoord + offset);
+                    }
+                    if (LevelConstructionObjects[x] == 10) {
+                        this.addObject(new Bottle(), Xcoord + offset, Ycoord + offset);
+                    }
+                    if (LevelConstructionObjects[x] == 11) {
+                        this.addObject(new Bean(), Xcoord + offset, Ycoord + offset);
                     }
                 }
             }
             br2.close();
             // change display order of actors (top -> bottom)
-            setPaintOrder(Text.class, Back.class, Forward.class, Pushy.class, House.class, Box.class, Stone.class,
-                    Palm_left.class, Palm_right.class, Grass.class, Sand.class, Water.class);
+            setPaintOrder(Text.class, Back.class, Forward.class, Pushy.class, House.class, Box.class, Seastar.class,
+                    Stone.class, Palm.class, Grass.class, Sand.class, Water.class);
             Back Back = new Back("<  ", 50, "center"); // new Text(Text, Fontsize, alignment relative to x)
             addObject(Back, BlockSize / 4, (WorldHeight - 1) * BlockSize + offset); // Add Text(center x, center y)
             Forward Forward = new Forward(">  ", 50, "center"); // new Text(Text, Fontsize, alignment relative to x)
@@ -177,8 +193,9 @@ public class MyWorld extends World {
     }
 
     public void menu() {
-        Text MenuText = new Text("Press ENTER to continue", 30, "center"); // new Text(Text, Fontsize, alignment
-                                                                           // relative to x)
+        String menutext = "Press ENTER to continue";
+        Text MenuText = new Text(menutext, 30, "center"); // new Text(Text, Fontsize, alignment
+                                                          // relative to x)
         addObject(MenuText, WorldWidth * BlockSize / 2, WorldHeight * BlockSize / 2); // Add Text(center x, center y)
         if (Greenfoot.isKeyDown("enter")) {
             changemode(pushyisland);
