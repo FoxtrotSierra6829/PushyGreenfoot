@@ -15,10 +15,11 @@ public class Pushy extends Actor {
             worldcreate = false;
         }
         // no diagonal moves
-        if (!((Greenfoot.isKeyDown("W") | Greenfoot.isKeyDown("up") | Greenfoot.isKeyDown("S")
+        if ((!((Greenfoot.isKeyDown("W") | Greenfoot.isKeyDown("up") | Greenfoot.isKeyDown("S")
                 | Greenfoot.isKeyDown("down"))
                 & (Greenfoot.isKeyDown("D") | Greenfoot.isKeyDown("right") | Greenfoot.isKeyDown("A")
-                        | Greenfoot.isKeyDown("left")))) {
+                        | Greenfoot.isKeyDown("left"))))
+                & House.pushyinhouse() == false) {
             /// move
             if (Greenfoot.isKeyDown("W") | Greenfoot.isKeyDown("up")) {
                 // turn up
@@ -82,14 +83,18 @@ public class Pushy extends Actor {
         List waterleft = getWorld().getObjectsAt(getX() - MyWorld.BlockSize * step, getY(), Water.class);
         // check for House, Stone, Palms
         List staticleft = getWorld().getObjectsAt(getX() - MyWorld.BlockSize * step, getY(), Static.class);
+        // check for Box_in_water
+        List boxinwaterleft = getWorld().getObjectsAt(getX() - MyWorld.BlockSize * step, getY(), Box_in_water.class);
         // check for Grass
         List grassleft = getWorld().getObjectsAt(getX() - MyWorld.BlockSize * step, getY(), Grass.class);
         // check for Sand
         List sand = getWorld().getObjectsAt(getX(), getY(), Sand.class);
         if (step == 2) {
             List sandstep2 = getWorld().getObjectsAt(getX() - MyWorld.BlockSize * (step - 1), getY(), Sand.class);
-            if (getX() > MyWorld.BlockSize * step & waterleft.isEmpty() & staticleft.isEmpty()
-                    & ((grassleft.isEmpty() & !sandstep2.isEmpty())) | sandstep2.isEmpty()) {
+            List movableleft = getWorld().getObjectsAt(getX() - MyWorld.BlockSize * step, getY(), Movable.class);
+            if (getX() > MyWorld.BlockSize * step & (waterleft.isEmpty() | (!boxinwaterleft.isEmpty()))
+                    & staticleft.isEmpty() & movableleft.isEmpty()
+                    & (((grassleft.isEmpty() & !sandstep2.isEmpty())) | sandstep2.isEmpty())) {
                 return true;
             } else {
                 return false;
@@ -97,8 +102,8 @@ public class Pushy extends Actor {
         }
         // check if Pushy is further away from world end than one block and there is no
         // water & house left
-        else if (getX() > MyWorld.BlockSize * step & waterleft.isEmpty() & staticleft.isEmpty()
-                & ((grassleft.isEmpty() & !sand.isEmpty())) | sand.isEmpty()) {
+        else if (getX() > MyWorld.BlockSize * step & (waterleft.isEmpty() | (!boxinwaterleft.isEmpty()))
+                & staticleft.isEmpty() & (((grassleft.isEmpty() & !sand.isEmpty())) | sand.isEmpty())) {
             return true;
         } else {
             return false;
@@ -110,14 +115,19 @@ public class Pushy extends Actor {
         List waterright = getWorld().getObjectsAt(getX() + MyWorld.BlockSize * step, getY(), Water.class);
         // check for House, Stone, Palms
         List staticright = getWorld().getObjectsAt(getX() + MyWorld.BlockSize * step, getY(), Static.class);
+        // check for Box_in_water
+        List boxinwaterright = getWorld().getObjectsAt(getX() + MyWorld.BlockSize * step, getY(), Box_in_water.class);
         // check for Grass
         List grassright = getWorld().getObjectsAt(getX() + MyWorld.BlockSize * step, getY(), Grass.class);
         // check for Sand
         List sand = getWorld().getObjectsAt(getX(), getY(), Sand.class);
         if (step == 2) {
             List sandstep2 = getWorld().getObjectsAt(getX() + MyWorld.BlockSize * (step - 1), getY(), Sand.class);
-            if (getX() < MyWorld.BlockSize * step * (MyWorld.WorldWidth - 1) & waterright.isEmpty()
-                    & staticright.isEmpty() & ((grassright.isEmpty() & !sandstep2.isEmpty())) | sandstep2.isEmpty()) {
+            List movableright = getWorld().getObjectsAt(getX() + MyWorld.BlockSize * step, getY(), Movable.class);
+            if (getX() < MyWorld.BlockSize * (MyWorld.WorldWidth - step)
+                    & (waterright.isEmpty() | (!boxinwaterright.isEmpty())) & staticright.isEmpty()
+                    & movableright.isEmpty()
+                    & (((grassright.isEmpty() & !sandstep2.isEmpty())) | sandstep2.isEmpty())) {
                 return true;
             } else {
                 return false;
@@ -125,8 +135,9 @@ public class Pushy extends Actor {
         }
         // check if Pushy is further away from world end than one block and there is no
         // water & house right
-        if (getX() < MyWorld.BlockSize * step * (MyWorld.WorldWidth - 1) & waterright.isEmpty() & staticright.isEmpty()
-                & ((grassright.isEmpty() & !sand.isEmpty())) | sand.isEmpty()) {
+        if (getX() < MyWorld.BlockSize * (MyWorld.WorldWidth - step)
+                & (waterright.isEmpty() | (!boxinwaterright.isEmpty())) & staticright.isEmpty()
+                & (((grassright.isEmpty() & !sand.isEmpty())) | sand.isEmpty())) {
             return true;
         } else {
             return false;
@@ -140,14 +151,18 @@ public class Pushy extends Actor {
         List stoneabove = getWorld().getObjectsAt(getX(), getY() - MyWorld.BlockSize * step, Stone.class);
         // check for Palms
         List palmabove = getWorld().getObjectsAt(getX(), getY() - MyWorld.BlockSize * step, Palm.class);
+        // check for Box_in_water
+        List boxinwaterabove = getWorld().getObjectsAt(getX(), getY() - MyWorld.BlockSize * step, Box_in_water.class);
         // check for Grass
         List grassabove = getWorld().getObjectsAt(getX(), getY() - MyWorld.BlockSize * step, Grass.class);
         // check for Sand
         List sand = getWorld().getObjectsAt(getX(), getY(), Sand.class);
         if (step == 2) {
             List sandstep2 = getWorld().getObjectsAt(getX(), getY() - MyWorld.BlockSize * (step - 1), Sand.class);
-            if (getY() > MyWorld.BlockSize * step & waterabove.isEmpty() & stoneabove.isEmpty() & palmabove.isEmpty()
-                    & ((grassabove.isEmpty() & !sandstep2.isEmpty())) | sandstep2.isEmpty()) {
+            List movableabove = getWorld().getObjectsAt(getX(), getY() - MyWorld.BlockSize * (step - 1), Movable.class);
+            if (getY() > MyWorld.BlockSize * step & (waterabove.isEmpty() | (!boxinwaterabove.isEmpty()))
+                    & stoneabove.isEmpty() & palmabove.isEmpty() & movableabove.isEmpty()
+                    & (((grassabove.isEmpty() & !sandstep2.isEmpty())) | sandstep2.isEmpty())) {
                 return true;
             } else {
                 return false;
@@ -155,8 +170,9 @@ public class Pushy extends Actor {
         }
         // check if Pushy is further away from world end than one block and there is no
         // water above
-        if (getY() > MyWorld.BlockSize * step & waterabove.isEmpty() & stoneabove.isEmpty() & palmabove.isEmpty()
-                & ((grassabove.isEmpty() & !sand.isEmpty())) | sand.isEmpty()) {
+        if (getY() > MyWorld.BlockSize * step & (waterabove.isEmpty() | (!boxinwaterabove.isEmpty()))
+                & stoneabove.isEmpty() & palmabove.isEmpty()
+                & (((grassabove.isEmpty() & !sand.isEmpty())) | sand.isEmpty())) {
             return true;
         } else {
             return false;
@@ -168,14 +184,19 @@ public class Pushy extends Actor {
         List waterbelow = getWorld().getObjectsAt(getX(), getY() + MyWorld.BlockSize * step, Water.class);
         // check for House, Stone, Palms
         List staticbelow = getWorld().getObjectsAt(getX(), getY() + MyWorld.BlockSize * step, Static.class);
+        // check for Box_in_water
+        List boxinwaterbelow = getWorld().getObjectsAt(getX(), getY() + MyWorld.BlockSize * step, Box_in_water.class);
         // check for Grass
         List grassbelow = getWorld().getObjectsAt(getX(), getY() + MyWorld.BlockSize * step, Grass.class);
         // check for Sand
         List sand = getWorld().getObjectsAt(getX(), getY(), Sand.class);
         if (step == 2) {
             List sandstep2 = getWorld().getObjectsAt(getX(), getY() + MyWorld.BlockSize * (step - 1), Sand.class);
-            if (getY() < MyWorld.BlockSize * step * (MyWorld.WorldHeight - 1) & waterbelow.isEmpty()
-                    & staticbelow.isEmpty() & ((grassbelow.isEmpty() & !sandstep2.isEmpty())) | sandstep2.isEmpty()) {
+            List movablebelow = getWorld().getObjectsAt(getX(), getY() + MyWorld.BlockSize * (step - 1), Movable.class);
+            if (getY() < MyWorld.BlockSize * (MyWorld.WorldHeight - step)
+                    & (waterbelow.isEmpty() | (!boxinwaterbelow.isEmpty())) & staticbelow.isEmpty()
+                    & movablebelow.isEmpty()
+                    & (((grassbelow.isEmpty() & !sandstep2.isEmpty())) | sandstep2.isEmpty())) {
                 return true;
             } else {
                 return false;
@@ -183,14 +204,16 @@ public class Pushy extends Actor {
         }
         // check if Pushy is further away from world end than one block and there is no
         // water & house right
-        if (getY() < MyWorld.BlockSize * step * (MyWorld.WorldHeight - 1) & waterbelow.isEmpty() & staticbelow.isEmpty()
-                & ((grassbelow.isEmpty() & !sand.isEmpty())) | sand.isEmpty()) {
+        if (getY() < MyWorld.BlockSize * (MyWorld.WorldHeight - step)
+                & (waterbelow.isEmpty() | (!boxinwaterbelow.isEmpty())) & staticbelow.isEmpty()
+                & (((grassbelow.isEmpty() & !sand.isEmpty())) | sand.isEmpty())) {
             return true;
         } else {
             return false;
         }
     }
 
+    // Check for Movable next to Pushy
     public boolean movableleft() {
         List movable = getWorld().getObjectsAt(getX() - MyWorld.BlockSize, getY(), Movable.class);
         if (!movable.isEmpty()) {
@@ -227,8 +250,8 @@ public class Pushy extends Actor {
         }
     }
 
+    // Turn pushy (used in House)
     public void turn() {
         turn(15);
     }
 }
-

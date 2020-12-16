@@ -18,6 +18,8 @@ public class MyWorld extends World {
     String pushyisland = "PushyIsland";
     String levelground = "";
     String levelobjects = "";
+    String levelname = "";
+    Back Back = new Back(); // new Back
 
     public MyWorld() throws Exception {
         // Create a new world with 1500x900 cells with a cell size of 1x1 pixels.
@@ -36,8 +38,7 @@ public class MyWorld extends World {
             int imax = 1;
             while (imax != 0) {
                 try {
-                    BufferedReader maxlvl = new BufferedReader(new InputStreamReader(
-                            new FileInputStream("levels/" + gamemode + "/level" + imax + "_ground.txt")));
+                    BufferedReader maxlvl = new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream("levels/" + gamemode + "/level" + imax + "_ground.txt")));
                     String levelStr = maxlvl.readLine();
                     maxlvl.close();
                     maxlevel = imax;
@@ -168,16 +169,22 @@ public class MyWorld extends World {
             }
             br2.close();
             // change display order of actors (top -> bottom)
-            setPaintOrder(Text.class, Back.class, Forward.class, Pushy.class, House.class, Box.class, Seastar.class,
-                    Stone.class, Palm.class, Grass.class, Sand.class, Water.class);
-            Back Back = new Back("<  ", 50, "center"); // new Text(Text, Fontsize, alignment relative to x)
-            addObject(Back, BlockSize / 4, (WorldHeight - 1) * BlockSize + offset); // Add Text(center x, center y)
-            Forward Forward = new Forward(">  ", 50, "center"); // new Text(Text, Fontsize, alignment relative to x)
-            addObject(Forward, (WorldWidth - 1) * BlockSize + BlockSize / 4, (WorldHeight - 1) * BlockSize + offset); // Add
-                                                                                                                      // Text(center
-                                                                                                                      // x,
-                                                                                                                      // center
-                                                                                                                      // y)
+            setPaintOrder(Text.class, Back.class, Forward.class, Reset.class, Pushy.class, House.class, Box.class, Seastar.class,
+                    Stone.class, Palm.class, Box_in_water.class, Grass.class, Sand.class, Water.class);
+            addObject(new Back(), BlockSize / 4, (WorldHeight - 1) * BlockSize + offset); // new Back
+            addObject(new Forward(), (WorldWidth - 1) * BlockSize + BlockSize / 4, (WorldHeight - 1) * BlockSize + offset); //new Forward
+            addObject(new Reset(), (WorldWidth - 1) * BlockSize + offset + BlockSize / 4, BlockSize / 4); //new Reset
+
+            // show current level + name
+            try {
+                BufferedReader lvlname = new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream("levels/" + gamemode + "/level" + levelnr + "_name.txt")));
+                levelname = lvlname.readLine();
+                lvlname.close();
+            } catch (Exception e) {
+            }
+            Text Levelname = new Text(levelname, 30, "left", "white"); // new Text(Text, Fontsize, alignment relative to
+                                                                       // x, color)
+            addObject(Levelname, BlockSize / 4, BlockSize / 4); // Add Text(center x, center y)
         }
     }
 
@@ -193,8 +200,8 @@ public class MyWorld extends World {
 
     public void menu() {
         String menutext = "Press ENTER to continue";
-        Text MenuText = new Text(menutext, 30, "center"); // new Text(Text, Fontsize, alignment
-                                                          // relative to x)
+        Text MenuText = new Text(menutext, 30, "center", "black"); // new Text(Text, Fontsize, alignment
+        // relative to x, color)
         addObject(MenuText, WorldWidth * BlockSize / 2, WorldHeight * BlockSize / 2); // Add Text(center x, center y)
         if (Greenfoot.isKeyDown("enter")) {
             changemode(pushyisland);

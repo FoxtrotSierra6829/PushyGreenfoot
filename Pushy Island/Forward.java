@@ -8,21 +8,15 @@ public class Forward extends Actor {
     String gamemode = "Menu";
 
     // automatically centered text
-    public Forward(String text, int size, String alignment) {
-        if (alignment.equalsIgnoreCase("center")) {
+    public Forward() {
+            String text =">  ";
+            int size = 50;
             GreenfootImage img = new GreenfootImage(2, 1);
             img.scale(text.length() * (int) Math.round(size / 2), (int) Math.round(size * 1.5));
             img.setFont(new Font("Calibri", false, false, size));
+            img.setColor(new Color(255, 255, 255));
             img.drawString(text, (int) Math.round(size * 0.8), (int) Math.round(size * 1.05));
             setImage(img);
-        }
-        if (alignment.equalsIgnoreCase("left")) {
-            GreenfootImage img = new GreenfootImage(2, 1);
-            img.scale(text.length() * size, (int) Math.round(size * 1.5));
-            img.setFont(new Font("Calibri", false, false, size));
-            img.drawString(text, (int) Math.round(text.length() * size / 2), (int) Math.round(size * 1.05));
-            setImage(img);
-        }
     }
 
     public void act() {

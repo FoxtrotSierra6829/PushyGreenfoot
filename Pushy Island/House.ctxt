@@ -10,4 +10,6 @@ comment4.params=
 comment4.target=boolean\ checkhome()
 comment5.params=
 comment5.target=boolean\ missioncomplete()
-numComments=6
+comment6.params=
+comment6.target=boolean\ pushyinhouse()
+numComments=7

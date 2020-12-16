@@ -10,9 +10,11 @@ public class House extends Static {
     String gamemode = "Menu";
     int homerun = 0;
     Pushy pushy1;
+    static int pushyinhouse = 0;
 
     public House(Pushy Pushy1) {
         pushy1 = Pushy1;
+        pushyinhouse = 0;
 
     }
 
@@ -40,6 +42,7 @@ public class House extends Static {
             worldcreate = false;
         }
         if (checkhome() == true) {
+            pushyinhouse = 1;
             if (homerun < 50) {
                 Greenfoot.setSpeed(50);
                 homerun++;
@@ -113,5 +116,13 @@ public class House extends Static {
 
     public boolean missioncomplete() {
         return true;
+    }
+
+    public static boolean pushyinhouse() {
+        if (pushyinhouse == 1) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
