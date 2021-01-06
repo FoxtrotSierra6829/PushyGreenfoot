@@ -25,7 +25,13 @@ public class Pushy extends Actor {
                 // turn up
                 setRotation(0);
                 if (movableabove()) {
-                    if (cangoup(2)) {
+                    List bottleabove = getWorld().getObjectsAt(getX(), getY() - MyWorld.BlockSize * 1, Bottle.class);
+                    if (!bottleabove.isEmpty()){
+                        List waterabove = getWorld().getObjectsAt(getX(), getY() - MyWorld.BlockSize * 2, Water.class);
+                        if (waterabove.isEmpty() & cangoup(2)){
+                            setLocation(getX(), getY() - MyWorld.BlockSize);
+                        }
+                    }else if (cangoup(2)) {
                         setLocation(getX(), getY() - MyWorld.BlockSize);
                     }
                 }
@@ -34,6 +40,7 @@ public class Pushy extends Actor {
                     setLocation(getX(), getY() - MyWorld.BlockSize);
                 }
             }
+            
             if (Greenfoot.isKeyDown("A") | Greenfoot.isKeyDown("left")) {
                 // turn left
                 setRotation(270);
@@ -48,6 +55,7 @@ public class Pushy extends Actor {
                     setLocation(getX() - MyWorld.BlockSize, getY());
                 }
             }
+            
             if (Greenfoot.isKeyDown("S") | Greenfoot.isKeyDown("down")) {
                 // turn down
                 setRotation(180);
@@ -62,6 +70,7 @@ public class Pushy extends Actor {
                     setLocation(getX(), getY() + MyWorld.BlockSize);
                 }
             }
+            
             if (Greenfoot.isKeyDown("D") | Greenfoot.isKeyDown("right")) {
                 // turn right
                 setRotation(90);
@@ -75,7 +84,17 @@ public class Pushy extends Actor {
                     setLocation(getX() + MyWorld.BlockSize, getY());
                 }
             }
+            
+            if (Greenfoot.isKeyDown("Space")){
+                if (MyWorld.bean > 0){
+                    MyWorld.bean --;
+                    getWorld().addObject(new Bean(),getX(), getY());
+                }
+            }
+            
+            
         }
+        checkspring();
     }
 
     public boolean cangoleft(int step) {
@@ -253,5 +272,77 @@ public class Pushy extends Actor {
     // Turn pushy (used in House)
     public void turn() {
         turn(15);
+    }
+    
+    public void checkspring(){
+        Actor SandHole = getOneIntersectingObject(SandHole.class);
+        if (MyWorld.spring == true & SandHole != null){
+            int rotation = getRotation();
+            if (rotation == 0){
+                // check for Water
+                List waterup = getWorld().getObjectsAt(getX(), getY() - MyWorld.BlockSize, Water.class);
+                // check for House, Stone, Palms
+                List staticup = getWorld().getObjectsAt(getX(), getY() - MyWorld.BlockSize, Static.class);
+                // check for Box_in_water
+                List movableup = getWorld().getObjectsAt(getX(), getY() - MyWorld.BlockSize, Movable.class);
+                
+                // check if Pushy is further away from world end than one block and there is no
+                // water & house up
+                if (getY() > MyWorld.BlockSize & waterup.isEmpty() & movableup.isEmpty() & staticup.isEmpty()) {
+                    turn(-90);
+                    move(75);
+                    turn(90);
+                }
+            }
+            else if (rotation == 90){
+                // check for Water
+                List waterright = getWorld().getObjectsAt(getX() + MyWorld.BlockSize, getY(), Water.class);
+                // check for House, Stone, Palms
+                List staticright = getWorld().getObjectsAt(getX() + MyWorld.BlockSize, getY(), Static.class);
+                // check for Box_in_water
+                List movableright = getWorld().getObjectsAt(getX() + MyWorld.BlockSize, getY(), Movable.class);
+                
+                // check if Pushy is further away from world end than one block and there is no
+                // water & house right
+                if (getX() < MyWorld.BlockSize * (MyWorld.WorldWidth -1) & waterright.isEmpty() & movableright.isEmpty() & staticright.isEmpty()) {
+                    turn(-90);
+                    move(75);
+                    turn(90);
+                }
+            }
+            else if (rotation == 180){
+                // check for Water
+                List waterdown = getWorld().getObjectsAt(getX(), getY() + MyWorld.BlockSize, Water.class);
+                // check for House, Stone, Palms
+                List staticdown = getWorld().getObjectsAt(getX(), getY() + MyWorld.BlockSize, Static.class);
+                // check for Box_in_water
+                List movabledown = getWorld().getObjectsAt(getX(), getY() + MyWorld.BlockSize, Movable.class);
+                
+                // check if Pushy is further away from world end than one block and there is no
+                // water & house down
+                if (getY() < MyWorld.BlockSize * (MyWorld.WorldHeight -1) & waterdown.isEmpty() & movabledown.isEmpty() & staticdown.isEmpty()) {
+                    turn(-90);
+                    move(75);
+                    turn(90);
+                }
+            }
+            else if (rotation == 270){
+                // check for Water
+                List waterleft = getWorld().getObjectsAt(getX() - MyWorld.BlockSize, getY(), Water.class);
+                // check for House, Stone, Palms
+                List staticleft = getWorld().getObjectsAt(getX() - MyWorld.BlockSize, getY(), Static.class);
+                // check for Box_in_water
+                List movableleft = getWorld().getObjectsAt(getX() - MyWorld.BlockSize, getY(), Movable.class);
+                
+                // check if Pushy is further away from world end than one block and there is no
+                // water & house left
+                if (getX() > MyWorld.BlockSize & waterleft.isEmpty() & movableleft.isEmpty() & staticleft.isEmpty()) {
+                    turn(-90);
+                    move(75);
+                    turn(90);
+                }
+            }
+            
+        }
     }
 }

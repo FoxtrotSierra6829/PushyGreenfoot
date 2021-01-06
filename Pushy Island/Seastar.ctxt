@@ -2,4 +2,12 @@
 comment0.target=Seastar
 comment1.params=
 comment1.target=void\ act()
-numComments=2
+comment2.params=
+comment2.target=boolean\ canmoveleft()
+comment3.params=
+comment3.target=boolean\ canmoveright()
+comment4.params=
+comment4.target=boolean\ canmoveup()
+comment5.params=
+comment5.target=boolean\ canmovedown()
+numComments=6

@@ -116,8 +116,13 @@ public class House extends Static {
     }
 
     public boolean missioncomplete() {
-        return true;
-    }
+        if (MyWorld.seastar == 0){
+          return true;
+        }else {
+             return false; 
+          }
+        }
+    
 
     public static boolean pushyinhouse() { // used by Pushy.class
         if (pushyinhouse == 1) {

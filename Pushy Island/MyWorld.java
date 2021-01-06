@@ -10,6 +10,10 @@ public class MyWorld extends World {
     static int WorldHeight = 12;
     static int BlockSize = 75;
     static int offset = BlockSize / 2;
+    static int seastar;
+    static int bean;
+    static boolean filled = false;
+    static boolean spring = false;
     int levelnr = 1;
     int highscorelevel = 1;
     int maxlevel = 1;
@@ -21,11 +25,16 @@ public class MyWorld extends World {
     String levelobjects = "";
     String levelname = "";
     Back Back = new Back(); // new Back
+    
 
     public MyWorld() throws Exception {
         // Create a new world with 1500x900 cells with a cell size of 1x1 pixels.
         super(1500, 900, 1);
-        Greenfoot.setSpeed(30);
+        Greenfoot.setSpeed(34);
+        filled = false;
+        spring = false;
+        bean = 0;
+        seastar = 0;
         new File((System.getProperty("user.home") + "/Documents/Pushy")).mkdirs(); //Create Pushy User folder if not existing
         //get current game mode
         try {
@@ -121,6 +130,7 @@ public class MyWorld extends World {
         ///// PUSHY ISLAND
         if (gamemode.equalsIgnoreCase(pushyisland)) {
             // get maximum level
+            setBackground("pushy_island_loading.jpg");
             int imax = 1;
             while (imax != 0) {
                 try {
@@ -275,6 +285,7 @@ public class MyWorld extends World {
                                                                        // x, color)
             addObject(Levelname, BlockSize / 4, BlockSize / 4); // Add Text(center x, center y)
         }
+        
     }
 
     /// ACT METHOD

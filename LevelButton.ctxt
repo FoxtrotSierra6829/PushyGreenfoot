@@ -1,9 +1,0 @@
-#BlueJ class context
-comment0.target=LevelButton
-comment1.params=lvl\ lvlcolor\ go
-comment1.target=LevelButton(java.lang.String,\ int,\ java.lang.String)
-comment2.params=
-comment2.target=void\ act()
-comment3.params=
-comment3.target=void\ loadlevel()
-numComments=4
