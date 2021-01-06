@@ -14,6 +14,7 @@ public class MyWorld extends World {
     int highscorelevel = 1;
     int maxlevel = 1;
     String gamemode = "Menu";
+    String gotomode;
     String menu = "Menu";
     String pushyisland = "PushyIsland";
     String levelground = "";
@@ -25,7 +26,8 @@ public class MyWorld extends World {
         // Create a new world with 1500x900 cells with a cell size of 1x1 pixels.
         super(1500, 900, 1);
         Greenfoot.setSpeed(30);
-        new File((System.getProperty("user.home") + "/Documents/Pushy")).mkdirs();
+        new File((System.getProperty("user.home") + "/Documents/Pushy")).mkdirs(); //Create Pushy User folder if not existing
+        //get current game mode
         try {
             BufferedReader mode = new BufferedReader(new InputStreamReader(
                     new FileInputStream(System.getProperty("user.home") + "/Documents/Pushy/mode.pushy")));
@@ -33,6 +35,90 @@ public class MyWorld extends World {
             mode.close();
         } catch (Exception e) {
         }
+        
+        ///// MENU (Pushy Island)
+        if (gamemode.equalsIgnoreCase(menu)) {
+            gotomode = pushyisland;
+            setBackground("pushy_island.jpg");
+            // get maximum level
+            int imax = 1;
+            while (imax != 0) {
+                try {
+                    BufferedReader maxlvl = new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream("levels/" + pushyisland + "/level" + imax + "_ground.txt")));
+                    String levelStr = maxlvl.readLine();
+                    maxlvl.close();
+                    maxlevel = imax;
+                    imax++;
+                } catch (Exception e) {
+                    imax = 0;
+                    new File((System.getProperty("user.home") + "/Documents/Pushy/levels/" + gotomode)).mkdirs();
+                    BufferedWriter max = new BufferedWriter(new FileWriter(
+                            System.getProperty("user.home") + "/Documents/Pushy/levels/" + gotomode + "/max.lvl"));
+                    max.write(String.valueOf(maxlevel));
+                    max.close();
+                }
+            }
+            // get highscore level
+            try {
+                BufferedReader lvl = new BufferedReader(new InputStreamReader(new FileInputStream(
+                        System.getProperty("user.home") + "/Documents/Pushy/levels/" + gotomode + "/highscore.lvl")));
+                String levelStr = lvl.readLine();
+                lvl.close();
+                highscorelevel = Integer.parseInt(levelStr);
+            } catch (Exception e) {
+                new File((System.getProperty("user.home") + "/Documents/Pushy/levels/" + gotomode)).mkdirs();
+                highscorelevel = 0;
+            }
+            // get current level
+            try {
+                BufferedReader lvl = new BufferedReader(new InputStreamReader(new FileInputStream(
+                        System.getProperty("user.home") + "/Documents/Pushy/levels/" + gotomode + "/current.lvl")));
+                String levelStr = lvl.readLine();
+                lvl.close();
+                levelnr = Integer.parseInt(levelStr);
+            } catch (Exception e) {
+                levelnr = 1;
+            }
+            if (levelnr > maxlevel | levelnr < 1) { // Prevent errors, not being able to load a level
+                levelnr = 1;
+            }
+            if (levelnr > highscorelevel + 1) { // Cannot skip levels further than highscorelevel
+                levelnr = highscorelevel + 1;
+            }
+            
+            
+            // add available level numbers to choose what level to enter
+            int i = 1;
+            int y = 5;
+            while (y < WorldHeight-2) {
+                int x = 1;
+                while (x < WorldWidth) {
+                    if (i <= highscorelevel+1 & i <= maxlevel) {
+                    int Xcoord = (x * BlockSize);
+                    int Ycoord = ((y - 1) * BlockSize);
+                    int lvlcolor;
+                    if (i == levelnr) {
+                        lvlcolor=2;
+                        
+                    }
+                    else {
+                        if (i <= highscorelevel) {
+                            lvlcolor=1;
+                        }
+                        else {
+                            lvlcolor=0;
+                        }
+                    }
+                    addObject(new LevelButton(String.valueOf(i),lvlcolor,gotomode), Xcoord + offset, Ycoord + offset);
+                        i++;
+                    }
+                    x++;
+                }
+                y++;
+            }
+        }
+        
+        ///// PUSHY ISLAND
         if (gamemode.equalsIgnoreCase(pushyisland)) {
             // get maximum level
             int imax = 1;
@@ -61,7 +147,7 @@ public class MyWorld extends World {
                 highscorelevel = Integer.parseInt(levelStr);
             } catch (Exception e) {
                 new File((System.getProperty("user.home") + "/Documents/Pushy/levels/" + gamemode)).mkdirs();
-                highscorelevel = 1;
+                highscorelevel = 0;
             }
             // get current level
             try {
@@ -114,7 +200,8 @@ public class MyWorld extends World {
                 }
             }
             br.close();
-            /// GROUND
+            
+            /// OBJECTS
             BufferedReader br2 = new BufferedReader(
                     new InputStreamReader(getClass().getClassLoader().getResourceAsStream(levelobjects))); // reading
                                                                                                            // levelX_ground
@@ -169,8 +256,10 @@ public class MyWorld extends World {
             }
             br2.close();
             // change display order of actors (top -> bottom)
-            setPaintOrder(Text.class, Back.class, Forward.class, Reset.class, Pushy.class, House.class, Box.class, Seastar.class,
-                    Stone.class, Palm.class, Box_in_water.class, Grass.class, Sand.class, Water.class);
+            setPaintOrder(Text.class, Back.class, Forward.class, Reset.class, Pushy.class, House.class, Box.class, Seastar.class, Bottle.class, Bean.class, 
+                    Stone.class, Palm.class, Box_in_water.class, WaterHole.class, SandHole.class, Grass.class, Sand.class, Water.class);
+            
+            // add back, forward and reset button
             addObject(new Back(), BlockSize / 4, (WorldHeight - 1) * BlockSize + offset); // new Back
             addObject(new Forward(), (WorldWidth - 1) * BlockSize + BlockSize / 4, (WorldHeight - 1) * BlockSize + offset); //new Forward
             addObject(new Reset(), (WorldWidth - 1) * BlockSize + offset + BlockSize / 4, BlockSize / 4); //new Reset
@@ -190,40 +279,43 @@ public class MyWorld extends World {
 
     /// ACT METHOD
     public void act() {
+        // execute menu funcions when in menu
         if (gamemode.equalsIgnoreCase(menu)) {
             menu();
         }
+        // play Pushy Island
         if (gamemode.equalsIgnoreCase(pushyisland)) {
             PushyIsland();
         }
     }
 
     public void menu() {
-        String menutext = "Press ENTER to continue";
-        Text MenuText = new Text(menutext, 30, "center", "black"); // new Text(Text, Fontsize, alignment
-        // relative to x, color)
-        addObject(MenuText, WorldWidth * BlockSize / 2, WorldHeight * BlockSize / 2); // Add Text(center x, center y)
+        // enter changes to Pushy Island/..
         if (Greenfoot.isKeyDown("enter")) {
-            changemode(pushyisland);
+            changemode(gotomode);
         }
+        // escape changes to menu (currently: == reload) 
         if (Greenfoot.isKeyDown("escape")) {
             changemode(menu);
         }
     }
 
     public void PushyIsland() {
+        // escape changes to menu
         if (Greenfoot.isKeyDown("escape")) {
             changemode(menu);
         }
     }
 
-    public void changemode(String modechange) {
+    public static void changemode(String modechange) {
         try {
+            //change mode file
             new File(System.getProperty("user.home") + "/Documents/Pushy/mode.pushy").delete();
             BufferedWriter mode = new BufferedWriter(
                     new FileWriter(System.getProperty("user.home") + "/Documents/Pushy/mode.pushy"));
             mode.write(modechange);
             mode.close();
+            //reload
             Greenfoot.setWorld(new MyWorld());
             Greenfoot.start();
             return;

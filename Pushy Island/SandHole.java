@@ -7,7 +7,7 @@ public class SandHole extends Actor {
     public void act() {
         if (worldcreate == true) {
             // Resize Image to fit Grid
-            setImage(new GreenfootImage("seastar.png"));
+            setImage(new GreenfootImage("sand_hole.png"));
             GreenfootImage image = getImage();
             image.scale(MyWorld.BlockSize, MyWorld.BlockSize);
             setImage(image);

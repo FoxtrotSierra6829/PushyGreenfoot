@@ -102,6 +102,7 @@ public class House extends Static {
     }
 
     public boolean checkhome() {
+        // check if pushy is in house and missions are completed
         Actor Pushy = getOneIntersectingObject(Pushy.class);
         if (Pushy != null) {
             if (missioncomplete() == true) {
@@ -118,7 +119,7 @@ public class House extends Static {
         return true;
     }
 
-    public static boolean pushyinhouse() {
+    public static boolean pushyinhouse() { // used by Pushy.class
         if (pushyinhouse == 1) {
             return true;
         } else {
