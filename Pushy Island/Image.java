@@ -1,23 +1,27 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
-/**
- * Write a description of class Image here.
- * 
- * @author (your name) 
- * @version (a version number or a date)
- */
+
 public class Image extends Actor
 {
     boolean worldcreate = true;
-
-    public void act(String customimage) {
+    String customimage;
+    public Image(String custom) {
+        customimage = custom;
+    }
+    
+    public void act() {
         if (worldcreate == true) {
             // Resize Image to fit Grid
             setImage(new GreenfootImage(customimage));
             GreenfootImage image = getImage();
-            image.scale(MyWorld.BlockSize/2, MyWorld.BlockSize/2);
+            image.scale(MyWorld.BlockSize, MyWorld.BlockSize);
             setImage(image);
             worldcreate = false;
+        }
+        else if (customimage.equalsIgnoreCase("1xbean.png")) {
+            if (MyWorld.bean == 0) {
+                getWorld().removeObject(this);
+            }
         }
     } 
 }

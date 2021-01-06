@@ -1,5 +1,6 @@
 import greenfoot.*; // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.List;
+
 public class Bean extends Actor {
 
     boolean worldcreate = true;
@@ -9,39 +10,41 @@ public class Bean extends Actor {
             // Resize Image to fit Grid
             setImage(new GreenfootImage("bean.png"));
             GreenfootImage image = getImage();
-            Actor SandHole = getOneIntersectingObject(SandHole.class); 
-            if (SandHole != null){
-                image.scale(MyWorld.BlockSize/2, MyWorld.BlockSize/2);
+            Actor SandHole = getOneIntersectingObject(SandHole.class);
+            if (SandHole != null) {
+                image.scale(MyWorld.BlockSize / 2, MyWorld.BlockSize / 2);
             } else {
                 image.scale(MyWorld.BlockSize, MyWorld.BlockSize);
             }
             setImage(image);
             worldcreate = false;
         }
-        if (checkpushy()){
-            MyWorld.bean ++;
+        if (checkpushy()) {
+            MyWorld.bean++;
+            getWorld().addObject(new Image("1xbean.png"), (MyWorld.WorldWidth / 2) * MyWorld.BlockSize - MyWorld.offset,
+                    MyWorld.WorldHeight * MyWorld.BlockSize - MyWorld.offset);
             getWorld().removeObject(this);
-        }else { 
+        } else {
             checkwater();
         }
     }
-    
+
     public boolean checkpushy() {
         // check if pushy is on bean and missions are completed
         Actor Pushy = getOneIntersectingObject(Pushy.class);
-        Actor SandHole = getOneIntersectingObject(SandHole.class); 
+        Actor SandHole = getOneIntersectingObject(SandHole.class);
         if (Pushy != null & SandHole == null) {
             return true;
         } else {
             return false;
         }
     }
-    
-    public void checkwater(){
-        //check bean in hole and water on bean
-        Actor SandHole2 = getOneIntersectingObject(SandHole.class); 
+
+    public void checkwater() {
+        // check bean in hole and water on bean
+        Actor SandHole2 = getOneIntersectingObject(SandHole.class);
         Actor Bottle = getOneIntersectingObject(Bottle.class);
-        if (SandHole2 != null & Bottle != null & MyWorld.filled == true){
+        if (SandHole2 != null & Bottle != null & MyWorld.filled == true) {
             getWorld().removeObject(this);
             MyWorld.spring = true;
         }

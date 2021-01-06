@@ -7,14 +7,14 @@ public class Back extends Actor {
 
     // automatically centered text
     public Back() {
-            String text ="<  ";
-            int size = 50;
-            GreenfootImage img = new GreenfootImage(2, 1);
-            img.scale(text.length() * (int) Math.round(size / 2), (int) Math.round(size * 1.5));
-            img.setFont(new Font("Calibri", false, false, size));
-            img.setColor(new Color(255, 255, 255));
-            img.drawString(text, (int) Math.round(size * 0.8), (int) Math.round(size * 1.05));
-            setImage(img);
+        String text = "<  ";
+        int size = 50;
+        GreenfootImage img = new GreenfootImage(2, 1);
+        img.scale(text.length() * (int) Math.round(size / 2), (int) Math.round(size * 1.5));
+        img.setFont(new Font("Calibri", false, false, size));
+        img.setColor(new Color(255, 255, 255));
+        img.drawString(text, (int) Math.round(size * 0.8), (int) Math.round(size * 1.05));
+        setImage(img);
     }
 
     public void act() {
