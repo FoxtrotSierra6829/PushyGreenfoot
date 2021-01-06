@@ -1,0 +1,15 @@
+#BlueJ class context
+comment0.target=House
+comment1.params=Pushy1
+comment1.target=House(Pushy)
+comment2.params=
+comment2.target=void\ act()
+comment3.params=
+comment3.target=void\ nextlevel()
+comment4.params=
+comment4.target=boolean\ checkhome()
+comment5.params=
+comment5.target=boolean\ missioncomplete()
+comment6.params=
+comment6.target=boolean\ pushyinhouse()
+numComments=7
