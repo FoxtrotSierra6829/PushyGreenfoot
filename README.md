@@ -1,6 +1,6 @@
 # PushyGreenfoot
 
-[WIP] Pushy Island recreated in Greenfoot
+Pushy Island recreated in Greenfoot (Java)
 
 [Project-Status](https://github.com/FoxtrotSierra6829/PushyGreenfoot/projects/1)
 
