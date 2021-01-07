@@ -100,7 +100,8 @@ public class Box extends Movable {
                 List staticleft = getWorld().getObjectsAt(getX() - MyWorld.BlockSize, getY(), Static.class);
                 List movableleft = getWorld().getObjectsAt(getX() - MyWorld.BlockSize, getY(), Movable.class);
                 List grassleft = getWorld().getObjectsAt(getX() - MyWorld.BlockSize, getY(), Grass.class);
-                if (getX() < MyWorld.BlockSize * (MyWorld.WorldWidth - 1) & staticleft.isEmpty() & movableleft.isEmpty()
+                List springleft = getWorld().getObjectsAt(getX() - MyWorld.BlockSize, getY(), SandHole.class);
+                if (getX() < MyWorld.BlockSize * (MyWorld.WorldWidth - 1) & staticleft.isEmpty() & movableleft.isEmpty() & !(!springleft.isEmpty() & MyWorld.spring== true)
                         & (((grassleft.isEmpty() & !sand.isEmpty())) | sand.isEmpty())) {
                     return true;
                 } else {
@@ -126,7 +127,8 @@ public class Box extends Movable {
                 List staticright = getWorld().getObjectsAt(getX() + MyWorld.BlockSize, getY(), Static.class);
                 List movableright = getWorld().getObjectsAt(getX() + MyWorld.BlockSize, getY(), Movable.class);
                 List grassright = getWorld().getObjectsAt(getX() + MyWorld.BlockSize, getY(), Grass.class);
-                if (getX() < MyWorld.BlockSize * (MyWorld.WorldWidth - 1) & staticright.isEmpty()
+                List springright = getWorld().getObjectsAt(getX() + MyWorld.BlockSize, getY(), SandHole.class);
+                if (getX() < MyWorld.BlockSize * (MyWorld.WorldWidth - 1) & staticright.isEmpty() & !(!springright.isEmpty() & MyWorld.spring== true)
                         & movableright.isEmpty() & (((grassright.isEmpty() & !sand.isEmpty())) | sand.isEmpty())) {
                     return true;
                 } else {
@@ -152,7 +154,8 @@ public class Box extends Movable {
                 List staticabove = getWorld().getObjectsAt(getX(), getY() - MyWorld.BlockSize, Static.class);
                 List movableabove = getWorld().getObjectsAt(getX(), getY() - MyWorld.BlockSize, Movable.class);
                 List grassabove = getWorld().getObjectsAt(getX(), getY() - MyWorld.BlockSize, Grass.class);
-                if (getY() > MyWorld.BlockSize & staticabove.isEmpty() & movableabove.isEmpty()
+                List springabove = getWorld().getObjectsAt(getX(), getY() - MyWorld.BlockSize, SandHole.class);
+                if (getY() > MyWorld.BlockSize & staticabove.isEmpty() & movableabove.isEmpty() & !(!springabove.isEmpty() & MyWorld.spring== true)
                         & (((grassabove.isEmpty() & !sand.isEmpty())) | sand.isEmpty())) {
                     return true;
                 } else {
@@ -178,7 +181,8 @@ public class Box extends Movable {
                 List staticbelow = getWorld().getObjectsAt(getX(), getY() + MyWorld.BlockSize, Static.class);
                 List movablebelow = getWorld().getObjectsAt(getX(), getY() + MyWorld.BlockSize, Movable.class);
                 List grassbelow = getWorld().getObjectsAt(getX(), getY() + MyWorld.BlockSize, Grass.class);
-                if (getY() < MyWorld.BlockSize * (MyWorld.WorldHeight - 1) & staticbelow.isEmpty()
+                List springbelow = getWorld().getObjectsAt(getX(), getY() + MyWorld.BlockSize, SandHole.class);
+                if (getY() < MyWorld.BlockSize * (MyWorld.WorldHeight - 1) & staticbelow.isEmpty() & !(!springbelow.isEmpty() & MyWorld.spring== true)
                         & movablebelow.isEmpty() & (((grassbelow.isEmpty() & !sand.isEmpty())) | sand.isEmpty())) {
                     return true;
                 } else {

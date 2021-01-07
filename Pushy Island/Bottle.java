@@ -83,9 +83,10 @@ public class Bottle extends Movable {
                 List staticleft = getWorld().getObjectsAt(getX() - MyWorld.BlockSize, getY(), Static.class);
                 List movableleft = getWorld().getObjectsAt(getX() - MyWorld.BlockSize, getY(), Movable.class);
                 List grassleft = getWorld().getObjectsAt(getX() - MyWorld.BlockSize, getY(), Grass.class);
+                List springleft = getWorld().getObjectsAt(getX() - MyWorld.BlockSize, getY(), SandHole.class);
                 List water = getWorld().getObjectsAt(getX() - MyWorld.BlockSize, getY(), Water.class);
                 List boxinwater = getWorld().getObjectsAt(getX() - MyWorld.BlockSize, getY(), Box_in_water.class);
-                if (getX() < MyWorld.BlockSize * (MyWorld.WorldWidth - 1) & staticleft.isEmpty() & movableleft.isEmpty()
+                if (getX() < MyWorld.BlockSize * (MyWorld.WorldWidth - 1) & staticleft.isEmpty() & movableleft.isEmpty() & !(!springleft.isEmpty() & MyWorld.spring== true)
                         & (water.isEmpty() | !water.isEmpty() & !boxinwater.isEmpty())
                         & (((grassleft.isEmpty() & !sand.isEmpty())) | sand.isEmpty())) {
                     return true;
@@ -112,9 +113,10 @@ public class Bottle extends Movable {
                 List staticright = getWorld().getObjectsAt(getX() + MyWorld.BlockSize, getY(), Static.class);
                 List movableright = getWorld().getObjectsAt(getX() + MyWorld.BlockSize, getY(), Movable.class);
                 List grassright = getWorld().getObjectsAt(getX() + MyWorld.BlockSize, getY(), Grass.class);
+                List springright = getWorld().getObjectsAt(getX() + MyWorld.BlockSize, getY(), SandHole.class);
                 List water = getWorld().getObjectsAt(getX() + MyWorld.BlockSize, getY(), Water.class);
                 List boxinwater = getWorld().getObjectsAt(getX() + MyWorld.BlockSize, getY(), Box_in_water.class);
-                if (getX() < MyWorld.BlockSize * (MyWorld.WorldWidth - 1) & staticright.isEmpty()
+                if (getX() < MyWorld.BlockSize * (MyWorld.WorldWidth - 1) & staticright.isEmpty() & !(!springright.isEmpty() & MyWorld.spring== true)
                         & movableright.isEmpty() & (water.isEmpty() | !water.isEmpty() & !boxinwater.isEmpty())
                         & (((grassright.isEmpty() & !sand.isEmpty())) | sand.isEmpty())) {
                     return true;
@@ -141,9 +143,10 @@ public class Bottle extends Movable {
                 List staticabove = getWorld().getObjectsAt(getX(), getY() - MyWorld.BlockSize, Static.class);
                 List movableabove = getWorld().getObjectsAt(getX(), getY() - MyWorld.BlockSize, Movable.class);
                 List grassabove = getWorld().getObjectsAt(getX(), getY() - MyWorld.BlockSize, Grass.class);
+                List springabove = getWorld().getObjectsAt(getX(), getY() - MyWorld.BlockSize, SandHole.class);
                 List water = getWorld().getObjectsAt(getX(), getY() - MyWorld.BlockSize, Water.class);
                 List boxinwater = getWorld().getObjectsAt(getX(), getY() - MyWorld.BlockSize, Box_in_water.class);
-                if (getY() > MyWorld.BlockSize & staticabove.isEmpty() & movableabove.isEmpty()
+                if (getY() > MyWorld.BlockSize & staticabove.isEmpty() & movableabove.isEmpty() & !(!springabove.isEmpty() & MyWorld.spring== true)
                         & (water.isEmpty() | !water.isEmpty() & !boxinwater.isEmpty())
                         & (((grassabove.isEmpty() & !sand.isEmpty())) | sand.isEmpty())) {
                     return true;
@@ -170,9 +173,10 @@ public class Bottle extends Movable {
                 List staticbelow = getWorld().getObjectsAt(getX(), getY() + MyWorld.BlockSize, Static.class);
                 List movablebelow = getWorld().getObjectsAt(getX(), getY() + MyWorld.BlockSize, Movable.class);
                 List grassbelow = getWorld().getObjectsAt(getX(), getY() + MyWorld.BlockSize, Grass.class);
+                List springbelow = getWorld().getObjectsAt(getX(), getY() + MyWorld.BlockSize, SandHole.class);
                 List water = getWorld().getObjectsAt(getX(), getY() + MyWorld.BlockSize, Water.class);
                 List boxinwater = getWorld().getObjectsAt(getX(), getY() + MyWorld.BlockSize, Box_in_water.class);
-                if (getY() < MyWorld.BlockSize * (MyWorld.WorldHeight - 1) & staticbelow.isEmpty()
+                if (getY() < MyWorld.BlockSize * (MyWorld.WorldHeight - 1) & staticbelow.isEmpty() & !(!springbelow.isEmpty() & MyWorld.spring== true)
                         & movablebelow.isEmpty() & (water.isEmpty() | !water.isEmpty() & !boxinwater.isEmpty())
                         & (((grassbelow.isEmpty() & !sand.isEmpty())) | sand.isEmpty())) {
                     return true;

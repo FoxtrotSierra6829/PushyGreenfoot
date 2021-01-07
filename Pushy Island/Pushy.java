@@ -296,7 +296,7 @@ public class Pushy extends Actor {
                 // water & house up
                 if (getY() > MyWorld.BlockSize & waterup.isEmpty() & movableup.isEmpty() & staticup.isEmpty()) {
                     turn(-90);
-                    move(75);
+                    move(MyWorld.BlockSize);
                     turn(90);
                 }
             } else if (rotation == 90) {
@@ -312,7 +312,7 @@ public class Pushy extends Actor {
                 if (getX() < MyWorld.BlockSize * (MyWorld.WorldWidth - 1) & waterright.isEmpty()
                         & movableright.isEmpty() & staticright.isEmpty()) {
                     turn(-90);
-                    move(75);
+                    move(MyWorld.BlockSize);
                     turn(90);
                 }
             } else if (rotation == 180) {
@@ -328,7 +328,7 @@ public class Pushy extends Actor {
                 if (getY() < MyWorld.BlockSize * (MyWorld.WorldHeight - 1) & waterdown.isEmpty() & movabledown.isEmpty()
                         & staticdown.isEmpty()) {
                     turn(-90);
-                    move(75);
+                    move(MyWorld.BlockSize);
                     turn(90);
                 }
             } else if (rotation == 270) {
@@ -343,7 +343,7 @@ public class Pushy extends Actor {
                 // water & house left
                 if (getX() > MyWorld.BlockSize & waterleft.isEmpty() & movableleft.isEmpty() & staticleft.isEmpty()) {
                     turn(-90);
-                    move(75);
+                    move(MyWorld.BlockSize);
                     turn(90);
                 }
             }
