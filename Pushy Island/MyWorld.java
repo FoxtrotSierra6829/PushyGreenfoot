@@ -21,6 +21,7 @@ public class MyWorld extends World {
     String gotomode;
     String menu = "Menu";
     String pushyisland = "PushyIsland";
+    String win = "win";
     String levelground = "";
     String levelobjects = "";
     String levelname = "";
@@ -127,7 +128,7 @@ public class MyWorld extends World {
         }
 
         ///// PUSHY ISLAND
-        if (gamemode.equalsIgnoreCase(pushyisland)) {
+        else if (gamemode.equalsIgnoreCase(pushyisland)) {
             // get maximum level
             setBackground("pushy_island_loading.jpg");
             int imax = 1;
@@ -287,6 +288,8 @@ public class MyWorld extends World {
             Text Levelname = new Text(levelname, 30, "left", "white"); // new Text(Text, Fontsize, alignment relative to
                                                                        // x, color)
             addObject(Levelname, BlockSize / 4, BlockSize / 4); // Add Text(center x, center y)
+        } else if (gamemode.equalsIgnoreCase(win)) {
+            setBackground("pushy_island_win.jpg");
         }
 
     }
@@ -300,6 +303,17 @@ public class MyWorld extends World {
         // play Pushy Island
         if (gamemode.equalsIgnoreCase(pushyisland)) {
             PushyIsland();
+        }
+        // win
+        if (gamemode.equalsIgnoreCase(win)) {
+            win();
+            try {
+                BufferedWriter mode = new BufferedWriter(
+                        new FileWriter(System.getProperty("user.home") + "/Documents/Pushy/mode.pushy"));
+                mode.write(menu);
+                mode.close();
+            } catch (Exception e) {
+            }
         }
     }
 
@@ -315,6 +329,17 @@ public class MyWorld extends World {
     }
 
     public void PushyIsland() {
+        // escape changes to menu
+        if (Greenfoot.isKeyDown("escape")) {
+            changemode(menu);
+        }
+    }
+
+    public void win() {
+        // enter changes to menu
+        if (Greenfoot.isKeyDown("enter")) {
+            changemode(menu);
+        }
         // escape changes to menu
         if (Greenfoot.isKeyDown("escape")) {
             changemode(menu);

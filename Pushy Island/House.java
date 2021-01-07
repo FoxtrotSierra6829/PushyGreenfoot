@@ -82,8 +82,14 @@ public class House extends Static {
 
         if (levelnr + 1 > maxlevel) {
             bw.write(String.valueOf(maxlevel));
+            bw.close();
+            BufferedWriter mode = new BufferedWriter(
+                    new FileWriter(System.getProperty("user.home") + "/Documents/Pushy/mode.pushy"));
+            mode.write("win");
+            mode.close();
         } else {
             bw.write(String.valueOf(levelnr + 1));
+            bw.close();
         }
         bw.close();
         if (levelnr > highscorelevel) {
