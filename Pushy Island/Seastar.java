@@ -20,11 +20,8 @@ public class Seastar extends Movable {
             getWorld().removeObject(this);
             MyWorld.seastar--;
         } else {
-            if ((!((Greenfoot.isKeyDown("W") | Greenfoot.isKeyDown("up") | Greenfoot.isKeyDown("S")
-                    | Greenfoot.isKeyDown("down"))
-                    & (Greenfoot.isKeyDown("D") | Greenfoot.isKeyDown("right") | Greenfoot.isKeyDown("A")
-                            | Greenfoot.isKeyDown("left"))))) {
-                if (Greenfoot.isKeyDown("A") | Greenfoot.isKeyDown("left")) {
+            try {
+                if ("a".equals(MyWorld.key) | "left".equals(MyWorld.key)) {
                     if (canmoveleft()) {
                         setLocation(getX() - MyWorld.BlockSize, getY());
                         // Check if now in water
@@ -35,7 +32,7 @@ public class Seastar extends Movable {
                         }
                     }
                 }
-                if (Greenfoot.isKeyDown("D") | Greenfoot.isKeyDown("right")) {
+                if ("d".equals(MyWorld.key) | "right".equals(MyWorld.key)) {
                     if (canmoveright()) {
                         setLocation(getX() + MyWorld.BlockSize, getY());
                         // Check if now in water
@@ -46,7 +43,7 @@ public class Seastar extends Movable {
                         }
                     }
                 }
-                if (Greenfoot.isKeyDown("W") | Greenfoot.isKeyDown("up")) {
+                if ("w".equals(MyWorld.key) | "up".equals(MyWorld.key)) {
                     if (canmoveup()) {
                         setLocation(getX(), getY() - MyWorld.BlockSize);
                         // Check if now in water
@@ -57,7 +54,7 @@ public class Seastar extends Movable {
                         }
                     }
                 }
-                if (Greenfoot.isKeyDown("S") | Greenfoot.isKeyDown("down")) {
+                if ("s".equals(MyWorld.key) | "down".equals(MyWorld.key)) {
                     if (canmovedown()) {
                         setLocation(getX(), getY() + MyWorld.BlockSize);
                         // Check if now in water
@@ -68,6 +65,7 @@ public class Seastar extends Movable {
                         }
                     }
                 }
+            } catch (Exception e) {
             }
         }
     }
@@ -85,7 +83,8 @@ public class Seastar extends Movable {
                 List movableleft = getWorld().getObjectsAt(getX() - MyWorld.BlockSize, getY(), Movable.class);
                 List grassleft = getWorld().getObjectsAt(getX() - MyWorld.BlockSize, getY(), Grass.class);
                 List springleft = getWorld().getObjectsAt(getX() - MyWorld.BlockSize, getY(), SandHole.class);
-                if (getX() < MyWorld.BlockSize * (MyWorld.WorldWidth - 1) & staticleft.isEmpty() & movableleft.isEmpty() & !(!springleft.isEmpty() & MyWorld.spring== true)
+                if (getX() < MyWorld.BlockSize * (MyWorld.WorldWidth - 1) & staticleft.isEmpty() & movableleft.isEmpty()
+                        & !(!springleft.isEmpty() & MyWorld.spring == true)
                         & (((grassleft.isEmpty() & !sand.isEmpty())) | sand.isEmpty())) {
                     return true;
                 } else {
@@ -112,8 +111,9 @@ public class Seastar extends Movable {
                 List movableright = getWorld().getObjectsAt(getX() + MyWorld.BlockSize, getY(), Movable.class);
                 List grassright = getWorld().getObjectsAt(getX() + MyWorld.BlockSize, getY(), Grass.class);
                 List springright = getWorld().getObjectsAt(getX() + MyWorld.BlockSize, getY(), SandHole.class);
-                if (getX() < MyWorld.BlockSize * (MyWorld.WorldWidth - 1) & staticright.isEmpty() & !(!springright.isEmpty() & MyWorld.spring== true)
-                        & movableright.isEmpty() & (((grassright.isEmpty() & !sand.isEmpty())) | sand.isEmpty())) {
+                if (getX() < MyWorld.BlockSize * (MyWorld.WorldWidth - 1) & staticright.isEmpty()
+                        & !(!springright.isEmpty() & MyWorld.spring == true) & movableright.isEmpty()
+                        & (((grassright.isEmpty() & !sand.isEmpty())) | sand.isEmpty())) {
                     return true;
                 } else {
                     return false;
@@ -139,7 +139,8 @@ public class Seastar extends Movable {
                 List movableabove = getWorld().getObjectsAt(getX(), getY() - MyWorld.BlockSize, Movable.class);
                 List grassabove = getWorld().getObjectsAt(getX(), getY() - MyWorld.BlockSize, Grass.class);
                 List springabove = getWorld().getObjectsAt(getX(), getY() - MyWorld.BlockSize, SandHole.class);
-                if (getY() > MyWorld.BlockSize & staticabove.isEmpty() & movableabove.isEmpty() & !(!springabove.isEmpty() & MyWorld.spring== true)
+                if (getY() > MyWorld.BlockSize & staticabove.isEmpty() & movableabove.isEmpty()
+                        & !(!springabove.isEmpty() & MyWorld.spring == true)
                         & (((grassabove.isEmpty() & !sand.isEmpty())) | sand.isEmpty())) {
                     return true;
                 } else {
@@ -166,8 +167,9 @@ public class Seastar extends Movable {
                 List movablebelow = getWorld().getObjectsAt(getX(), getY() + MyWorld.BlockSize, Movable.class);
                 List grassbelow = getWorld().getObjectsAt(getX(), getY() + MyWorld.BlockSize, Grass.class);
                 List springbelow = getWorld().getObjectsAt(getX(), getY() + MyWorld.BlockSize, SandHole.class);
-                if (getY() < MyWorld.BlockSize * (MyWorld.WorldHeight - 1) & staticbelow.isEmpty() & !(!springbelow.isEmpty() & MyWorld.spring== true)
-                        & movablebelow.isEmpty() & (((grassbelow.isEmpty() & !sand.isEmpty())) | sand.isEmpty())) {
+                if (getY() < MyWorld.BlockSize * (MyWorld.WorldHeight - 1) & staticbelow.isEmpty()
+                        & !(!springbelow.isEmpty() & MyWorld.spring == true) & movablebelow.isEmpty()
+                        & (((grassbelow.isEmpty() & !sand.isEmpty())) | sand.isEmpty())) {
                     return true;
                 } else {
                     return false;

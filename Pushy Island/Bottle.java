@@ -22,11 +22,8 @@ public class Bottle extends Movable {
             setImage(image);
             MyWorld.filled = true;
         }
-        if ((!((Greenfoot.isKeyDown("W") | Greenfoot.isKeyDown("up") | Greenfoot.isKeyDown("S")
-                | Greenfoot.isKeyDown("down"))
-                & (Greenfoot.isKeyDown("D") | Greenfoot.isKeyDown("right") | Greenfoot.isKeyDown("A")
-                        | Greenfoot.isKeyDown("left"))))) {
-            if (Greenfoot.isKeyDown("A") | Greenfoot.isKeyDown("left")) {
+        try {
+            if ("a".equals(MyWorld.key) | "left".equals(MyWorld.key)) {
                 if (canmoveleft()) {
                     setLocation(getX() - MyWorld.BlockSize, getY());
                     // Check if now in water
@@ -36,7 +33,7 @@ public class Bottle extends Movable {
                     }
                 }
             }
-            if (Greenfoot.isKeyDown("D") | Greenfoot.isKeyDown("right")) {
+            if ("d".equals(MyWorld.key) | "right".equals(MyWorld.key)) {
                 if (canmoveright()) {
                     setLocation(getX() + MyWorld.BlockSize, getY());
                     // Check if now in water
@@ -46,7 +43,7 @@ public class Bottle extends Movable {
                     }
                 }
             }
-            if (Greenfoot.isKeyDown("W") | Greenfoot.isKeyDown("up")) {
+            if ("w".equals(MyWorld.key) | "up".equals(MyWorld.key)) {
                 if (canmoveup()) {
                     setLocation(getX(), getY() - MyWorld.BlockSize);
                     // Check if now in water
@@ -56,7 +53,7 @@ public class Bottle extends Movable {
                     }
                 }
             }
-            if (Greenfoot.isKeyDown("S") | Greenfoot.isKeyDown("down")) {
+            if ("s".equals(MyWorld.key) | "down".equals(MyWorld.key)) {
                 if (canmovedown()) {
                     setLocation(getX(), getY() + MyWorld.BlockSize);
                     // Check if now in water
@@ -66,7 +63,7 @@ public class Bottle extends Movable {
                     }
                 }
             }
-
+        } catch (Exception e) {
         }
         checkbean();
     }

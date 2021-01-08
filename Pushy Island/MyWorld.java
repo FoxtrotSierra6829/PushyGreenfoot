@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MyWorld extends World {
-
+    static int speed = 40;
     static int WorldWidth = 20;
     static int WorldHeight = 12;
     static int BlockSize = 75;
@@ -14,6 +14,9 @@ public class MyWorld extends World {
     static int bean;
     static boolean filled = false;
     static boolean spring = false;
+    static String key;
+    int keycounter = 0;
+    int longpress = 3;
     int levelnr = 1;
     int highscorelevel = 1;
     int maxlevel = 1;
@@ -30,11 +33,12 @@ public class MyWorld extends World {
     public MyWorld() throws Exception {
         // Create a new world with 1500x900 cells with a cell size of 1x1 pixels.
         super(1500, 900, 1);
-        Greenfoot.setSpeed(34);
+        Greenfoot.setSpeed(speed);
         filled = false;
         spring = false;
         bean = 0;
         seastar = 0;
+        keycounter = 0;
         new File((System.getProperty("user.home") + "/Documents/Pushy")).mkdirs(); // Create Pushy User folder if not
                                                                                    // existing
         // get current game mode
@@ -296,6 +300,35 @@ public class MyWorld extends World {
 
     /// ACT METHOD
     public void act() {
+        // Get pressed key for all objects
+        String newkey = Greenfoot.getKey();
+        if ((keycounter) != 0) {
+            keycounter--;
+        }
+        if (newkey != null & keycounter == 0) {
+            key = newkey;
+            keycounter = longpress / 2;
+        } else if (keycounter == 0) {
+
+            if (Greenfoot.isKeyDown("w") | Greenfoot.isKeyDown("up")) {
+                key = "up";
+                keycounter = keycounter + longpress;
+            } else if (Greenfoot.isKeyDown("a") | Greenfoot.isKeyDown("left")) {
+                key = "left";
+                keycounter = keycounter + longpress;
+            } else if (Greenfoot.isKeyDown("s") | Greenfoot.isKeyDown("down")) {
+                key = "down";
+                keycounter = keycounter + longpress;
+            } else if (Greenfoot.isKeyDown("d") | Greenfoot.isKeyDown("right")) {
+                key = "right";
+                keycounter = keycounter + longpress;
+            } else {
+                key = null;
+            }
+        } else {
+            key = null;
+        }
+
         // execute menu funcions when in menu
         if (gamemode.equalsIgnoreCase(menu)) {
             menu();
@@ -319,29 +352,29 @@ public class MyWorld extends World {
 
     public void menu() {
         // enter changes to Pushy Island/..
-        if (Greenfoot.isKeyDown("enter")) {
+        if ("enter".equals(key)) {
             changemode(gotomode);
         }
         // escape changes to menu (currently: == reload)
-        if (Greenfoot.isKeyDown("escape")) {
+        if ("escape".equals(key)) {
             changemode(menu);
         }
     }
 
     public void PushyIsland() {
         // escape changes to menu
-        if (Greenfoot.isKeyDown("escape")) {
+        if ("escape".equals(key)) {
             changemode(menu);
         }
     }
 
     public void win() {
         // enter changes to menu
-        if (Greenfoot.isKeyDown("enter")) {
+        if ("enter".equals(key)) {
             changemode(menu);
         }
         // escape changes to menu
-        if (Greenfoot.isKeyDown("escape")) {
+        if ("escape".equals(key)) {
             changemode(menu);
         }
     }

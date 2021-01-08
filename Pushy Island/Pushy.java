@@ -4,6 +4,7 @@ import java.util.List;
 public class Pushy extends Actor {
 
     boolean worldcreate = true;
+    int speedchange = 0;
 
     public void act() {
         if (worldcreate == true) {
@@ -14,14 +15,10 @@ public class Pushy extends Actor {
             setImage(image);
             worldcreate = false;
         }
-        // no diagonal moves
-        if ((!((Greenfoot.isKeyDown("W") | Greenfoot.isKeyDown("up") | Greenfoot.isKeyDown("S")
-                | Greenfoot.isKeyDown("down"))
-                & (Greenfoot.isKeyDown("D") | Greenfoot.isKeyDown("right") | Greenfoot.isKeyDown("A")
-                        | Greenfoot.isKeyDown("left"))))
-                & House.pushyinhouse() == false) {
+        // do not move when pushy is turning in house
+        if (House.pushyinhouse() == false) {
             /// move
-            if (Greenfoot.isKeyDown("W") | Greenfoot.isKeyDown("up")) {
+            if ("w".equals(MyWorld.key) | "up".equals(MyWorld.key)) {
                 // turn up
                 setRotation(0);
                 if (movableabove()) {
@@ -41,7 +38,7 @@ public class Pushy extends Actor {
                 }
             }
 
-            if (Greenfoot.isKeyDown("A") | Greenfoot.isKeyDown("left")) {
+            if ("a".equals(MyWorld.key) | "left".equals(MyWorld.key)) {
                 // turn left
                 setRotation(270);
 
@@ -56,7 +53,7 @@ public class Pushy extends Actor {
                 }
             }
 
-            if (Greenfoot.isKeyDown("S") | Greenfoot.isKeyDown("down")) {
+            if ("s".equals(MyWorld.key) | "down".equals(MyWorld.key)) {
                 // turn down
                 setRotation(180);
 
@@ -71,7 +68,7 @@ public class Pushy extends Actor {
                 }
             }
 
-            if (Greenfoot.isKeyDown("D") | Greenfoot.isKeyDown("right")) {
+            if ("d".equals(MyWorld.key) | "right".equals(MyWorld.key)) {
                 // turn right
                 setRotation(90);
                 if (movableright()) {
@@ -85,12 +82,10 @@ public class Pushy extends Actor {
                 }
             }
 
-            // if (Greenfoot.isKeyDown("Space")){
             if (MyWorld.bean > 0) {
                 MyWorld.bean--;
                 getWorld().addObject(new Bean(), getX(), getY());
             }
-            // }
 
         }
         checkspring();
@@ -283,71 +278,78 @@ public class Pushy extends Actor {
     public void checkspring() {
         Actor SandHole = getOneIntersectingObject(SandHole.class);
         if (MyWorld.spring == true & SandHole != null) {
-            int rotation = getRotation();
-            if (rotation == 0) {
-                // check for Water
-                List waterup = getWorld().getObjectsAt(getX(), getY() - MyWorld.BlockSize, Water.class);
-                // check for House, Stone, Palms
-                List staticup = getWorld().getObjectsAt(getX(), getY() - MyWorld.BlockSize, Static.class);
-                // check for Box_in_water
-                List movableup = getWorld().getObjectsAt(getX(), getY() - MyWorld.BlockSize, Movable.class);
+            if (speedchange == 1) {
+                int rotation = getRotation();
+                if (rotation == 0) {
+                    // check for Water
+                    List waterup = getWorld().getObjectsAt(getX(), getY() - MyWorld.BlockSize, Water.class);
+                    // check for House, Stone, Palms
+                    List staticup = getWorld().getObjectsAt(getX(), getY() - MyWorld.BlockSize, Static.class);
+                    // check for Box_in_water
+                    List movableup = getWorld().getObjectsAt(getX(), getY() - MyWorld.BlockSize, Movable.class);
 
-                // check if Pushy is further away from world end than one block and there is no
-                // water & house up
-                if (getY() > MyWorld.BlockSize & waterup.isEmpty() & movableup.isEmpty() & staticup.isEmpty()) {
-                    turn(-90);
-                    move(MyWorld.BlockSize);
-                    turn(90);
-                }
-            } else if (rotation == 90) {
-                // check for Water
-                List waterright = getWorld().getObjectsAt(getX() + MyWorld.BlockSize, getY(), Water.class);
-                // check for House, Stone, Palms
-                List staticright = getWorld().getObjectsAt(getX() + MyWorld.BlockSize, getY(), Static.class);
-                // check for Box_in_water
-                List movableright = getWorld().getObjectsAt(getX() + MyWorld.BlockSize, getY(), Movable.class);
+                    // check if Pushy is further away from world end than one block and there is no
+                    // water & house up
+                    if (getY() > MyWorld.BlockSize & waterup.isEmpty() & movableup.isEmpty() & staticup.isEmpty()) {
+                        turn(-90);
+                        move(MyWorld.BlockSize);
+                        turn(90);
+                    }
+                } else if (rotation == 90) {
+                    // check for Water
+                    List waterright = getWorld().getObjectsAt(getX() + MyWorld.BlockSize, getY(), Water.class);
+                    // check for House, Stone, Palms
+                    List staticright = getWorld().getObjectsAt(getX() + MyWorld.BlockSize, getY(), Static.class);
+                    // check for Box_in_water
+                    List movableright = getWorld().getObjectsAt(getX() + MyWorld.BlockSize, getY(), Movable.class);
 
-                // check if Pushy is further away from world end than one block and there is no
-                // water & house right
-                if (getX() < MyWorld.BlockSize * (MyWorld.WorldWidth - 1) & waterright.isEmpty()
-                        & movableright.isEmpty() & staticright.isEmpty()) {
-                    turn(-90);
-                    move(MyWorld.BlockSize);
-                    turn(90);
-                }
-            } else if (rotation == 180) {
-                // check for Water
-                List waterdown = getWorld().getObjectsAt(getX(), getY() + MyWorld.BlockSize, Water.class);
-                // check for House, Stone, Palms
-                List staticdown = getWorld().getObjectsAt(getX(), getY() + MyWorld.BlockSize, Static.class);
-                // check for Box_in_water
-                List movabledown = getWorld().getObjectsAt(getX(), getY() + MyWorld.BlockSize, Movable.class);
+                    // check if Pushy is further away from world end than one block and there is no
+                    // water & house right
+                    if (getX() < MyWorld.BlockSize * (MyWorld.WorldWidth - 1) & waterright.isEmpty()
+                            & movableright.isEmpty() & staticright.isEmpty()) {
+                        turn(-90);
+                        move(MyWorld.BlockSize);
+                        turn(90);
+                    }
+                } else if (rotation == 180) {
+                    // check for Water
+                    List waterdown = getWorld().getObjectsAt(getX(), getY() + MyWorld.BlockSize, Water.class);
+                    // check for House, Stone, Palms
+                    List staticdown = getWorld().getObjectsAt(getX(), getY() + MyWorld.BlockSize, Static.class);
+                    // check for Box_in_water
+                    List movabledown = getWorld().getObjectsAt(getX(), getY() + MyWorld.BlockSize, Movable.class);
 
-                // check if Pushy is further away from world end than one block and there is no
-                // water & house down
-                if (getY() < MyWorld.BlockSize * (MyWorld.WorldHeight - 1) & waterdown.isEmpty() & movabledown.isEmpty()
-                        & staticdown.isEmpty()) {
-                    turn(-90);
-                    move(MyWorld.BlockSize);
-                    turn(90);
-                }
-            } else if (rotation == 270) {
-                // check for Water
-                List waterleft = getWorld().getObjectsAt(getX() - MyWorld.BlockSize, getY(), Water.class);
-                // check for House, Stone, Palms
-                List staticleft = getWorld().getObjectsAt(getX() - MyWorld.BlockSize, getY(), Static.class);
-                // check for Box_in_water
-                List movableleft = getWorld().getObjectsAt(getX() - MyWorld.BlockSize, getY(), Movable.class);
+                    // check if Pushy is further away from world end than one block and there is no
+                    // water & house down
+                    if (getY() < MyWorld.BlockSize * (MyWorld.WorldHeight - 1) & waterdown.isEmpty()
+                            & movabledown.isEmpty() & staticdown.isEmpty()) {
+                        turn(-90);
+                        move(MyWorld.BlockSize);
+                        turn(90);
+                    }
+                } else if (rotation == 270) {
+                    // check for Water
+                    List waterleft = getWorld().getObjectsAt(getX() - MyWorld.BlockSize, getY(), Water.class);
+                    // check for House, Stone, Palms
+                    List staticleft = getWorld().getObjectsAt(getX() - MyWorld.BlockSize, getY(), Static.class);
+                    // check for Box_in_water
+                    List movableleft = getWorld().getObjectsAt(getX() - MyWorld.BlockSize, getY(), Movable.class);
 
-                // check if Pushy is further away from world end than one block and there is no
-                // water & house left
-                if (getX() > MyWorld.BlockSize & waterleft.isEmpty() & movableleft.isEmpty() & staticleft.isEmpty()) {
-                    turn(-90);
-                    move(MyWorld.BlockSize);
-                    turn(90);
+                    // check if Pushy is further away from world end than one block and there is no
+                    // water & house left
+                    if (getX() > MyWorld.BlockSize & waterleft.isEmpty() & movableleft.isEmpty()
+                            & staticleft.isEmpty()) {
+                        turn(-90);
+                        move(MyWorld.BlockSize);
+                        turn(90);
+                    }
                 }
+                speedchange = 0;
+                Greenfoot.setSpeed(MyWorld.speed);
+            } else {
+                Greenfoot.setSpeed(33);
+                speedchange = 1;
             }
-
         }
     }
 }
