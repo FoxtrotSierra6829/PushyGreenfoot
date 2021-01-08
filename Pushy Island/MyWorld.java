@@ -16,7 +16,7 @@ public class MyWorld extends World {
     static boolean spring = false;
     static String key;
     int keycounter = 0;
-    int longpress = 3;
+    int longpress = 4;
     int levelnr = 1;
     int highscorelevel = 1;
     int maxlevel = 1;
@@ -307,7 +307,7 @@ public class MyWorld extends World {
         }
         if (newkey != null & keycounter == 0) {
             key = newkey;
-            keycounter = longpress / 2;
+            keycounter = 1;
         } else if (keycounter == 0) {
 
             if (Greenfoot.isKeyDown("w") | Greenfoot.isKeyDown("up")) {
